@@ -4,15 +4,11 @@
 
 <div align="center">
     <br>
-    <a href="https://www.docker.com/">
-        <img src="https://img.shields.io/badge/Qt-%23217346.svg?style=for-the-badge&logo=Qt&logoColor=white" alt="qt badge"/>
-    </a>
-    <a href="https://www.docker.com/">
-        <img src="https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white" alt="c++ badge"/>
-    </a>
+    <img src="https://img.shields.io/badge/Qt-%23217346.svg?style=for-the-badge&logo=Qt&logoColor=white" alt="qt badge"/>
+    <img src="https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white" alt="c++ badge"/>
 </div>
 
-#
+---
 
 ExtSorter es una aplicación de escritorio desarrollada con Qt que permite organizar ficheros de forma sencilla a partir de sus extensiones.
 
@@ -94,9 +90,9 @@ Antes de comenzar el programa, puedes seleccionar tres opciones en la ventana pr
 Para ver las categorías y extensiones del programa, ve al menú y dale a ``Ver -> Categorías y extensiones``. Se abrirá una ventana con una tabla con todas las categorías y extensiones.
 
 <div align="center">
-    <img src="readme_images/Pantalla ver categorías y extensiones.png" width="60%" alt="Pantalla ver categorías y extensiones">
+    <img src="readme_images/Pantalla ver categorías y extensiones.png" width="60%" alt="Pantalla Ver Categorías y Extensiones">
 </div>
-<div align="center"><i><b>Pantalla ver categorías y extensiones</b></i></div><br>
+<div align="center"><i><b>Pantalla Ver Categorías y Extensiones</b></i></div><br>
 
 El programa cuenta por defecto con 7 categorías y 77 extensiones. En la siguiente tabla se muestran las categorías y extensiones predeterminadas del programa.
 
@@ -118,23 +114,23 @@ El programa permite personalizar por completo las categorías y las extensiones 
 - Para **crear** una nueva categoría, haz click en ``Archivo -> Añadir Categorías``. Se abrirá una ventana en la que podrás elegir el nombre y las extensiones para la nueva categoría.
 
 <div align="center">
-    <img src="readme_images/Pantalla añadir categorías.png" width="40%" alt="Pantalla añadir categorías">
+    <img src="readme_images/Pantalla añadir categorías.png" width="40%" alt="Pantalla Añadir categorías">
 </div>
-<div align="center"><i><b>Pantalla añadir categorías</b></i></div><br>
+<div align="center"><i><b>Pantalla Añadir categorías</b></i></div><br>
 
 - Para **eliminar** una categoría, haz click en ``Archivo -> Eliminar Categorías``. Se abrirá una ventana en la que podrás seleccionar la categoría a eliminar o, si se prefiere, eliminarlas todas.
 
 <div align="center">
-    <img src="readme_images/Pantalla eliminar categorías.png" width="40%" alt="Pantalla eliminar categorías">
+    <img src="readme_images/Pantalla eliminar categorías.png" width="40%" alt="Pantalla Eliminar categorías">
 </div>
-<div align="center"><i><b>Pantalla eliminar categorías</b></i></div><br>
+<div align="center"><i><b>Pantalla Eliminar categorías</b></i></div><br>
 
 - Para **añadir nuevas extensiones** a una categoría, haz click en ``Archivo -> Añadir Extensiones``. Se abrirá una ventana en la que podrás seleccionar una de las categorías creadas para añadir nuevas extensiones.
 
 <div align="center">
-    <img src="readme_images/Pantalla añadir extensiones.png" width="40%" alt="Pantalla añadir extensiones">
+    <img src="readme_images/Pantalla añadir extensiones.png" width="40%" alt="Pantalla Añadir extensiones">
 </div>
-<div align="center"><i><b>Pantalla añadir extensiones</b></i></div><br>
+<div align="center"><i><b>Pantalla Añadir extensiones</b></i></div><br>
 
 - Para **restablecer** las categorías y extensiones a las predeterminadas, puede usarse el botón ``Restablecer`` dentro de las ventanas de ``Añadir Extensiones`` y ``Añadir Categorías``, o directamente desde ``Ver -> Restablecer extensiones``.
 
