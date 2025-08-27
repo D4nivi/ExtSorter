@@ -11,7 +11,6 @@
         <img src="https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white" alt="c++ badge"/>
     </a>
 </div>
-­
 
 #
 
@@ -34,7 +33,7 @@ El programa clasifica automáticamente los ficheros en categorías, como imágen
 ## Requisitos e Instalación
 Actualmente el programa **solo es compatible con Windows**.
 
-Puedes instalar la última versión del programa [aquí](insertar enlace a la release). El programa es un simple ejecutable, así que no necesitas instalar nada extra.
+Puedes instalar la última versión del programa [aquí](insertar enlace a la release). El programa es un simple ejecutable, por lo que además, de ser portable, no es necesario instalar ninguna dependencia.
 
 Si decides ejecutar el programa desde el código fuente, necesitarás tener instalado:
 - Qt 6
@@ -45,12 +44,12 @@ Para ejecutarlo, simplemente abre el proyecto con Qt Creator y ejecútalo.
 ## Cómo usar
 ExtSorter está pensado para usarse en **carpetas desordenadas** con una gran cantidad de ficheros (como _podrían_ ser el Escritorio o Descargas). La interfaz de ExtSorter hace que el programa sea muy intuitivo de usar, por lo que probablemente no necesites ver este apartado.
 
-Para empezar a usar ExtSorter, se selecciona una carpeta con el botón o desde la barra del menú con ``Archivo -> Abrir``.
+Para empezar a usar ExtSorter, selecciona una carpeta con el botón o desde el menú con ``Archivo -> Abrir``.
 
 <div align="center">
     <img src="readme_images/Pantalla principal.png" width="40%" alt="Pantalla principal">
 </div>
-<p style="text-align: center"><i><b>Pantalla principal</b></i></p><br>
+<div align="center"><i><b>Pantalla principal</b></i></div><br>
 
 Una vez seleccionada la carpeta, se pulsa el botón Comenzar. ExtSorter creará una carpeta dentro de la carpeta seleccionada, llamada ``ExtSorter``, donde se guardarán las carpetas con los ficheros ordenados.
 
@@ -68,7 +67,7 @@ Una vez se termina, saltará un mensaje avisando de que el proceso finalizó. Ce
 <div align="center">
     <img src="readme_images/Pantalla final.png" width="40%" alt="Pantalla principal">
 </div>
-<p style="text-align: center"><i><b>Pantalla final</b></i></p><br>
+<div align="center"><i><b>Pantalla final</b></i></div><br>
 
 En esta ventana se puede decidir qué hacer con las carpetas que ha creado el programa; simplemente marca las casillas con las carpetas a manipular y selecciona la acción:
 - ``Comprimir``: comprime las carpetas seleccionadas en un fichero `.zip`. El fichero se crea en la carpeta ``ExtSorter``.
@@ -92,12 +91,12 @@ Antes de comenzar el programa, puedes seleccionar tres opciones en la ventana pr
 
 
 ### Ver extensiones y categorías
-Para ver las categorías y extensiones del programa, ve a la barra del menú y dale a ``Ver -> Categorías y extensiones``. Se abrirá una ventana con una tabla con todas las categorías y extensiones.
+Para ver las categorías y extensiones del programa, ve al menú y dale a ``Ver -> Categorías y extensiones``. Se abrirá una ventana con una tabla con todas las categorías y extensiones.
 
 <div align="center">
     <img src="readme_images/Pantalla ver categorías y extensiones.png" width="60%" alt="Pantalla ver categorías y extensiones">
 </div>
-<p style="text-align: center"><i><b>Pantalla ver categorías y extensiones</b></i></p><br>
+<div align="center"><i><b>Pantalla ver categorías y extensiones</b></i></div><br>
 
 El programa cuenta por defecto con 7 categorías y 77 extensiones. En la siguiente tabla se muestran las categorías y extensiones predeterminadas del programa.
 
@@ -121,27 +120,32 @@ El programa permite personalizar por completo las categorías y las extensiones 
 <div align="center">
     <img src="readme_images/Pantalla añadir categorías.png" width="40%" alt="Pantalla añadir categorías">
 </div>
-<p style="text-align: center"><i><b>Pantalla añadir categorías</b></i></p><br>
+<div align="center"><i><b>Pantalla añadir categorías</b></i></div><br>
 
 - Para **eliminar** una categoría, haz click en ``Archivo -> Eliminar Categorías``. Se abrirá una ventana en la que podrás seleccionar la categoría a eliminar o, si se prefiere, eliminarlas todas.
 
 <div align="center">
     <img src="readme_images/Pantalla eliminar categorías.png" width="40%" alt="Pantalla eliminar categorías">
 </div>
-<p style="text-align: center"><i><b>Pantalla eliminar categorías</b></i></p><br>
+<div align="center"><i><b>Pantalla eliminar categorías</b></i></div><br>
 
 - Para **añadir nuevas extensiones** a una categoría, haz click en ``Archivo -> Añadir Extensiones``. Se abrirá una ventana en la que podrás seleccionar una de las categorías creadas para añadir nuevas extensiones.
 
 <div align="center">
     <img src="readme_images/Pantalla añadir extensiones.png" width="40%" alt="Pantalla añadir extensiones">
 </div>
-<p style="text-align: center"><i><b>Pantalla añadir extensiones</b></i></p><br>
+<div align="center"><i><b>Pantalla añadir extensiones</b></i></div><br>
 
 - Para **restablecer** las categorías y extensiones a las predeterminadas, puede usarse el botón ``Restablecer`` dentro de las ventanas de ``Añadir Extensiones`` y ``Añadir Categorías``, o directamente desde ``Ver -> Restablecer extensiones``.
+
+
+>_Nota_\
+>Las categorías predeterminadas tienen sus propios emojis que se muestran en la pantalla final. Si se eliminan dichas categorías y se vuelven a crear, este emoji se seguirá mostrando en la pantalla final.
 
 ## Próximas características
 - [ ] Detección y tratamiento de ficheros duplicados.
 - [ ] Compresión de ficheros con quazip.
+- [ ] Port a Linux.
 
 ## Créditos
 Los iconos usados en el programa no son míos, fueron creados por otros autores y descargados desde [Flaticon](https://www.flaticon.com). En la siguiente tabla se acreditan a los creadores de cada icono.
@@ -155,7 +159,6 @@ Los iconos usados en el programa no son míos, fueron creados por otros autores 
 | [iconixar](https://www.flaticon.com/authors/iconixar) ** | <img src="readme_images/move (iconixar).png" width="60px"> |
 | [Laisa Islam Ani](https://www.flaticon.es/autores/laisa-islam-ani) | <img src="images/reset.png" width="50px"> |
 
----
 
 \* El icono original fue ligeramente modificado, añadiendo un trazo negro alrededor y dentro del mismo.\
 \*\* El icono original fue ligeramente modificado, cambiando el color del fichero de blanco a azul.  

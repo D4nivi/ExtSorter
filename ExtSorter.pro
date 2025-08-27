@@ -37,7 +37,7 @@ FORMS += \
     Forms/finalwindow.ui \
     Forms/mainwindow.ui
 
-RC_ICONS = icono-app.ico
+RC_ICONS = images/icono-app.ico
 
 RESOURCES = resources.qrc
 
