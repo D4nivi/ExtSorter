@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="horizontalWidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>281</y>
+      <width>381</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="layoutBotonesFooter">
+     <property name="sizeConstraint">
+      <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
+     </property>
+     <item>
+      <layout class="QVBoxLayout" name="layoutCheckboxes">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QCheckBox" name="chkBorrarCarpetas">
+         <property name="text">
+          <string>Borrar carpetas vacías</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="chkBorrarAccesosDirectos">
+         <property name="text">
+          <string>Borrar acessos directos</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="chkExcluirOtros">
+         <property name="text">
+          <string>Excluir Otros</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>75</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnComenzar">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Comenzar</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>401</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="layoutCabecera"/>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget_3">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>289</y>
+      <width>401</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="layoutFooter">
+     <item>
+      <widget class="QWidget" name="colorFondo" native="true"/>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>90</y>
+      <width>381</width>
+      <height>191</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="layoutInstrucciones">
+     <item>
+      <widget class="QLabel" name="textoInfo">
+       <property name="text">
+        <string>Para empezar a usar el programa:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="textoPaso1">
+       <property name="layoutDirection">
+        <enum>Qt::LayoutDirection::LeftToRight</enum>
+       </property>
+       <property name="text">
+        <string>    1. Selecciona una carpeta con el botón de abajo.</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="textoPaso2">
+       <property name="text">
+        <string>    2. Marca las casillas de abajo (opcional).</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="textoPaso3">
+       <property name="text">
+        <string>    3. Dale a Comenzar.</string>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter">
+      <widget class="QPushButton" name="btnSelecCarpeta">
+       <property name="minimumSize">
+        <size>
+         <width>46</width>
+         <height>36</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normalon>:/images/icono-carpeta.png</normalon>
+        </iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="textoSelectCarpeta">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <zorder>horizontalLayoutWidget_2</zorder>
+   <zorder>horizontalLayoutWidget_3</zorder>
+   <zorder>horizontalWidget</zorder>
+   <zorder>verticalLayoutWidget</zorder>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>400</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuArchivo">
+    <property name="geometry">
+     <rect>
+      <x>304</x>
+      <y>107</y>
+      <width>161</width>
+      <height>172</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Archivo</string>
+    </property>
+    <addaction name="actionAbrir"/>
+    <addaction name="separator"/>
+    <addaction name="actionAddExtensiones"/>
+    <addaction name="actionAddCategorias"/>
+    <addaction name="actionDeleteCategorias"/>
+    <addaction name="separator"/>
+    <addaction name="actionSalir"/>
+   </widget>
+   <widget class="QMenu" name="menuAyuda">
+    <property name="title">
+     <string>Ayuda</string>
+    </property>
+    <addaction name="actionVerAyuda"/>
+    <addaction name="actionAcercaDe"/>
+   </widget>
+   <widget class="QMenu" name="menuVer">
+    <property name="title">
+     <string>Ver</string>
+    </property>
+    <addaction name="actionListar"/>
+    <addaction name="actionRestablecer"/>
+   </widget>
+   <addaction name="menuArchivo"/>
+   <addaction name="menuVer"/>
+   <addaction name="menuAyuda"/>
+  </widget>
+  <action name="actionArchivo">
+   <property name="text">
+    <string>Archivo</string>
+   </property>
+   <property name="toolTip">
+    <string>Archivo</string>
+   </property>
+  </action>
+  <action name="actionAddExtensiones">
+   <property name="icon">
+    <iconset>
+     <normalon>:/images/add.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Añadir Extensiones</string>
+   </property>
+  </action>
+  <action name="actionAbrir">
+   <property name="icon">
+    <iconset>
+     <normalon>:/images/icono-carpeta.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Abrir...</string>
+   </property>
+  </action>
+  <action name="actionSalir">
+   <property name="icon">
+    <iconset>
+     <normalon>:/images/exit.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Salir</string>
+   </property>
+  </action>
+  <action name="actionAddCategorias">
+   <property name="icon">
+    <iconset>
+     <normalon>:/images/add.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Añadir Categorías</string>
+   </property>
+  </action>
+  <action name="actionDeleteCategorias">
+   <property name="icon">
+    <iconset>
+     <normalon>:/images/minus.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Eliminar Categorías</string>
+   </property>
+  </action>
+  <action name="actionVerAyuda">
+   <property name="icon">
+    <iconset>
+     <normalon>:/images/question.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Ver la ayuda</string>
+   </property>
+  </action>
+  <action name="actionAcercaDe">
+   <property name="icon">
+    <iconset>
+     <normalon>:/images/information.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Acerca de</string>
+   </property>
+  </action>
+  <action name="actionListar">
+   <property name="icon">
+    <iconset>
+     <normalon>:/images/list.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Categorías y extensiones</string>
+   </property>
+  </action>
+  <action name="actionRestablecer">
+   <property name="icon">
+    <iconset>
+     <normalon>:/images/reset.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Restablecer Extensiones</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

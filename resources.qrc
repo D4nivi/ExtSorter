@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/delete.png</file>
+        <file>images/icono-app.png</file>
+        <file>images/icono-carpeta.png</file>
+        <file>images/information.png</file>
+        <file>images/transfer.png</file>
+        <file>images/warning.png</file>
+        <file>images/add.png</file>
+        <file>images/exit.png</file>
+        <file>images/list.png</file>
+        <file>images/minus.png</file>
+        <file>images/question.png</file>
+        <file>images/reset.png</file>
+        <file>images/cabecera-main-window.png</file>
+    </qresource>
+</RCC>
