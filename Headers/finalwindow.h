@@ -59,8 +59,6 @@ signals:
 
     void closeMainWindow();
 
-    void backToMainWindow();
-
     void mostrarTextoCuadro();
 
 private:

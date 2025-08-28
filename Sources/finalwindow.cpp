@@ -155,7 +155,6 @@ void FinalWindow::seleccionarTodoClicked()
 void FinalWindow::btnVolverClicked()
 {
     done(0);
-    emit backToMainWindow();
 }
 
 void FinalWindow::btnTerminarClicked()
@@ -227,19 +226,19 @@ void FinalWindow::btnAplicarClicked()
 void FinalWindow::aplicarComprimir(QString rutaCarpeta)
 {
     /* Barra de progreso */
-    QDialog * dialog = new QDialog(this);
+    QDialog * dialog = new QDialog();
     dialog->setWindowTitle("Comprimiendo...");
-    dialog->setFixedSize(300, 100);
+    dialog->setFixedSize(305, 100);
     dialog->setWindowModality(Qt::WindowModal);
     dialog->setWindowFlags(Qt::Dialog | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
 
     QVBoxLayout * layout = new QVBoxLayout(dialog);
 
-    QLabel * label = new QLabel("Comprimiendo carpetas. Esto puede tardar un poco.", dialog);
+    QLabel * label = new QLabel("Comprimiendo carpeta(s). Esto puede tardar un poco.", dialog);
     label->setAlignment(Qt::AlignCenter);
 
     QProgressBar * progress = new QProgressBar(dialog);
-    progress->setRange(0, 0);  // modo indeterminado
+    progress->setRange(0, 0);  // Hace que la barra se desplace independimenente del progreso
     progress->setTextVisible(false);
 
     layout->addWidget(label);
@@ -255,6 +254,7 @@ void FinalWindow::aplicarComprimir(QString rutaCarpeta)
     connect(thread, &QThread::started, worker, &ZipWorker::run);
     connect(worker, &ZipWorker::finished, this, [this, thread, worker, dialog, rutaCarpeta](int exitCode) {
         dialog->close();
+        delete dialog;
 
         if (exitCode == 0) {
             CustomMessageBox::info(this, "Completado", "Carpeta(s) comprimida(s) con éxito.");
@@ -263,7 +263,7 @@ void FinalWindow::aplicarComprimir(QString rutaCarpeta)
             QUrl url = QUrl::fromLocalFile(rutaCarpeta);
             QDesktopServices::openUrl(url);
         }
-        else QMessageBox::critical(this, "Error", "Ha ocurrido un error al intentar comprimir las carpetas.");
+        else QMessageBox::critical(this, "Error al comprimir", "Ha ocurrido un error al intentar comprimir las carpetas.");
 
         thread->quit();
         thread->wait();

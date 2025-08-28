@@ -1,6 +1,7 @@
 #ifndef ZIPWORKER_H
 #define ZIPWORKER_H
 
+#include <QFile>
 #include <QProcess>
 #include <QSet>
 
@@ -9,8 +10,9 @@ class ZipWorker : public QObject
     Q_OBJECT
 public:
     ZipWorker(QString rutaCarpeta, QSet<QString> carpetasSeleccionadas);
+    static int zipFileNum;
 
-public:
+private:
     QString rutaCarpeta;
     QSet<QString> carpetasSeleccionadas;
 

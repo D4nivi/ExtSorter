@@ -135,8 +135,8 @@ El programa permite personalizar por completo las categorías y las extensiones 
 - Para **restablecer** las categorías y extensiones a las predeterminadas, puede usarse el botón ``Restablecer`` dentro de las ventanas de ``Añadir Extensiones`` y ``Añadir Categorías``, o directamente desde ``Ver -> Restablecer extensiones``.
 
 
->_Nota_\
->Las categorías predeterminadas tienen sus propios emojis que se muestran en la pantalla final. Si se eliminan dichas categorías y se vuelven a crear, este emoji se seguirá mostrando en la pantalla final.
+>_Nota_
+>- Las categorías predeterminadas tienen sus propios emojis que se muestran en la **pantalla final**. Si se eliminan dichas categorías y se vuelven a crear, este emoji se seguirá mostrando en la pantalla final.
 
 ## Próximas características
 - [ ] Detección y tratamiento de ficheros duplicados.

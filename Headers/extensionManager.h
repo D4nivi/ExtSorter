@@ -18,12 +18,12 @@ class ExtensionManager : public QObject
 public:
     explicit ExtensionManager(QObject *parent = nullptr);
 
+    static bool filesModified;
     static const QString jsonFilePath;
     static const QString txtFilePath;
     static const int maxCategoryChars;
     static const int maxExtensionBoxChars;
     static const QMap<QString, QSet<QString>> defaultCategoriasYExtensiones;
-    static bool filesModified;
 
 private:
     QMap<QString, QSet<QString>> * categoriasYExtensiones;

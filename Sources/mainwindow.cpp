@@ -75,9 +75,9 @@ void MainWindow::changeWindow()
     this->hide();
     ventanaFinal = new FinalWindow(carpetaSeleccionada, fileCounter, nullptr);
     connect(ventanaFinal, &FinalWindow::closeMainWindow, this, &MainWindow::actionSalirTriggered);
-    connect(ventanaFinal, &FinalWindow::backToMainWindow, this, &MainWindow::restoreMainWindowValues);
 
     ventanaFinal->exec();
+    this->show();
 }
 
 void MainWindow::restoreMainWindowValues()
@@ -90,8 +90,6 @@ void MainWindow::restoreMainWindowValues()
     ui->chkBorrarCarpetas->setCheckState(Qt::Unchecked);
     ui->chkBorrarAccesosDirectos->setCheckState(Qt::Unchecked);
     ui->textoSelectCarpeta->setText("");
-
-    show();
 }
 
 
@@ -158,7 +156,7 @@ void MainWindow::btnComenzarClicked()
         }
 
         /* Tratamiento de carpetas vacías (opcional) */
-        else if (fichero.isDir()) {
+        else if (fichero.isDir() && !fichero.isSymLink()) {
             if (borrarCarpetasVacias && QDir(fichero.absoluteFilePath()).isEmpty()) {
                 carpetaOrigen.rmdir(fichero.fileName());
                 fileCounter.insert("Carpeta", ++carpetasEncontradas);
@@ -219,6 +217,8 @@ void MainWindow::btnComenzarClicked()
             CustomMessageBox::info(nullptr, "Completado", "Archivos ordenados correctamente." + msg);
             emit sortComplete();
         }
+
+        restoreMainWindowValues();
     }
 
     this->setEnabled(true);
@@ -360,7 +360,7 @@ void MainWindow::actionRestablecerTriggered()
 void MainWindow::actionVerAyudaTriggered()
 {
     // TODO: Poner link al readme cuando suba al github
-    QUrl url("https://github.com/D4nivi?tab=repositories");
+    QUrl url("https://github.com/D4nivi/ExtSorter");
     QDesktopServices::openUrl(url);
 }
 
@@ -385,7 +385,7 @@ void MainWindow::actionAcercaDeTriggered()
     QLabel label("", &ventana);
     label.setTextFormat(Qt::RichText);
     // TODO: Poner link al repositorio cuando lo suba al github
-    label.setText("ExtSorter creador por <b>Daniel Vidal</b>.<br><b>Versión</b>: 1.0<br><a href=\"https://github.com/D4nivi?tab=repositories\"><b>Repositorio de GitHub</b></a>");
+    label.setText("ExtSorter creador por <b>Daniel Vidal</b>.<br><b>Versión</b>: 1.0<br><a href=\"https://github.com/D4nivi/ExtSorter\"><b>Repositorio de GitHub</b></a>");
     label.setOpenExternalLinks(true);
 
     /* Botón */

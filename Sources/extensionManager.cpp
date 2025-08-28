@@ -255,7 +255,7 @@ QSet<QString> ExtensionManager::getExtensionsFromTXT()
 void ExtensionManager::resetCategoriasYExtensiones()
 {
     *categoriasYExtensiones = defaultCategoriasYExtensiones;
-    filesModified = true;
+    filesModified = false;
 }
 
 bool ExtensionManager::restoreCategoriasYExtensiones()
@@ -268,9 +268,8 @@ bool ExtensionManager::restoreCategoriasYExtensiones()
 
         /* Actualizar Atributos y Ficheros */
         resetCategoriasYExtensiones();
-        if (escribirExtensionesJSON() && escribirTXT(true)) {
-            success = true;
-        }
+        success = escribirExtensionesJSON() && escribirTXT(true);
+        filesModified = false;  // vuelvo a ponerlo porque al escribir el JSON se pone a true
 
         if (success) {
             CustomMessageBox::info(nullptr, "Extensiones Restablecidas", "Extensiones restablecidas con éxito.");
