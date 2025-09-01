@@ -213,7 +213,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Opciones predeterminadas</string>
+         <string>Activar casillas</string>
         </property>
        </widget>
       </item>

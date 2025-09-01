@@ -10,7 +10,7 @@
 
 ---
 
-ExtSorter es una aplicación de escritorio desarrollada con Qt que permite organizar ficheros de forma sencilla a partir de sus extensiones.
+***ExtSorter*** es una aplicación de escritorio desarrollada con Qt que permite organizar ficheros de forma sencilla a partir de sus extensiones.
 
 El programa clasifica automáticamente los ficheros en categorías, como imágenes, audio, vídeo, documentos... y mueve todos los ficheros a una carpeta concreta según esta categoria. Tras organizar, el programa ofrece al usuario opciones para manipular estas carpetas de manera segura.
 
@@ -18,9 +18,10 @@ El programa clasifica automáticamente los ficheros en categorías, como imágen
 - [Showcase](#showcase)
 - [Requisitos e Instalación](#requisitos-e-instalación)
 - [Cómo usar](#cómo-usar)
-	- [Opciones](#opciones)
+	- [Casillas](#casillas)
 	- [Ver extensiones y categorías](#ver-extensiones-y-categorías)
 	- [Añadir/Eliminar nuevas categorías y extensiones](#añadireliminar-nuevas-categorías-y-extensiones)
+    - [Preferencias](#preferencias)
 - [Próximas características](#próximas-características)
 - [Créditos](#créditos)
 
@@ -29,7 +30,7 @@ El programa clasifica automáticamente los ficheros en categorías, como imágen
 ## Requisitos e Instalación
 Actualmente el programa **solo es compatible con Windows**.
 
-Puedes instalar la última versión del programa [aquí](insertar enlace a la release). El programa es un simple ejecutable, por lo que además, de ser portable, no es necesario instalar ninguna dependencia.
+Puedes instalar la última versión del programa [aquí](insertar enlace a la release). El programa es un simple ejecutable, por lo que además de ser portable, **no es necesario instalar ninguna dependencia**.
 
 Si decides ejecutar el programa desde el código fuente, necesitarás tener instalado:
 - Qt 6
@@ -47,7 +48,7 @@ Para empezar a usar ExtSorter, selecciona una carpeta con el botón o desde el m
 </div>
 <div align="center"><i><b>Ventana principal</b></i></div><br>
 
-Una vez seleccionada la carpeta, se pulsa el botón Comenzar. ExtSorter creará una carpeta dentro de la carpeta seleccionada, llamada ``ExtSorter``, donde se guardarán las carpetas con los ficheros ordenados.
+Una vez seleccionada la carpeta, se pulsa el botón Comenzar. ExtSorter creará una **carpeta destino** dentro de la carpeta seleccionada, llamada ``ExtSorter`` por defecto, donde se guardarán las carpetas con los ficheros ordenados.
 
 Hay ocasiones en las que el programa puede no continuar:
 - La carpeta está vacía o no tiene ficheros (solo carpetas).
@@ -56,29 +57,29 @@ Hay ocasiones en las que el programa puede no continuar:
 >_Notas importantes_
 >- El programa no toma en cuenta todas las extensiones de ficheros existentes, por lo que los ficheros cuya extensión no esté contemplada por el programa serán movidos a una carpeta llamada `Otros`.
 >
->- Las carpetas llenas son ignoradas. Las carpetas vacías pueden eliminarse si se marca su opción (ver [_Opciones_](#opciones)).
+>- Las carpetas llenas son ignoradas. Las carpetas vacías pueden eliminarse si se marca su opción (ver [_Casillas de opciones_](#casillas-de-opciones)).
 
-Una vez se termina, saltará un mensaje avisando de que el proceso finalizó. Cerrar el cuadro hará que el programa pase a la ventana de manipulación de las carpetas (ventana final).
+Una vez se termina, saltará un mensaje avisando de que el proceso finalizó. Cerrar el cuadro hará que el programa pase a la ventana de manipulación de las carpetas (___Ventana Final___).
 
 <div align="center">
-    <img src="readme_images/Ventana final.png" width="40%" alt="Ventana principal">
+    <img src="readme_images/Ventana final.png" width="40%" alt="Ventana Final">
 </div>
-<div align="center"><i><b>Ventana final</b></i></div><br>
+<div align="center"><i><b>Ventana Final</b></i></div><br>
 
 En esta ventana se puede decidir qué hacer con las carpetas que ha creado el programa; simplemente marca las casillas con las carpetas a manipular y selecciona la acción:
-- ``Comprimir``: comprime las carpetas seleccionadas en un fichero `.zip`. El fichero se crea en la carpeta ``ExtSorter``.
+- ``Comprimir``: comprime las carpetas seleccionadas en un fichero `.zip`. El fichero se crea en la **carpeta destino**.
 - ``Eliminar``: elimina las carpetas seleccionadas.
 - ``Mover``: mueve las carpetas seleccionadas a otra carpeta, seleccionada por el usuario.
 
 Cuando el número de ficheros dentro de las carpetas seleccionadas es muy grande (>= 100) las acciones ``Eliminar`` y ``Mover`` solicitarán una confirmación.
 
 Dentro de esta ventana, también puedes:
-- Abrir la carpeta ``ExtSorter`` (botón ``Abrir carpeta``).
+- Abrir la carpeta destino (botón ``Abrir carpeta``).
 - Salir del programa (botón ``Terminar``)
 - Volver a la ventana principal (botón ``Volver``).
 
-### Opciones
-Antes de comenzar el programa, puedes seleccionar tres opciones en la ventana principal:
+### Casillas
+Antes de comenzar el programa, puedes seleccionar tres casillas en la ventana principal:
 - ``Borrar carpetas vacías``: si se marca, el programa eliminará todas las carpetas vacías que encuentre en la carpeta seleccionada.
 
 - ``Borrar accesos directos``: si se marca, el programa eliminará todos los accesos directos que encuentre en la carpeta seleccionada.
@@ -136,26 +137,47 @@ El programa permite personalizar por completo las categorías y las extensiones 
 
 
 >_Nota_
->- Las categorías predeterminadas tienen sus propios emojis que se muestran en la **ventana final**. Si se eliminan dichas categorías y se vuelven a crear, este emoji se seguirá mostrando en la ventana final.
+>- El nombre de las categoría añadida será el nombre que tendrá la carpeta de dicha categoría. El nombre de la categoría no puede estar entre los [nombres reservados por Windows ni contener caracteres prohibidos](https://learn.microsoft.com/es-es/windows/win32/fileio/naming-a-file#file-and-directory-names).
+>
+>- Las categorías predeterminadas tienen sus propios emojis que se muestran en la **Ventana Final**. Si se eliminan dichas categorías y se vuelven a crear, este emoji se seguirá mostrando en la Ventana Final.
+
+### Preferencias
+La ventana de preferencias puede ser accedida desde `Ver -> Preferencias`.
+
+<div align="center">
+    <img src="readme_images/Ventana preferencias.png" width="40%" alt="Ventana preferencias">
+</div>
+<div align="center"><i><b>Ventana Preferencias</b></i></div><br>
+
+El programa permite modificar ciertos parámetros, que se explican a continuación.
+
+- `Nombre carpeta destino`: Nombre de la carpeta en la que se guardan las carpetas con los ficheros ordenados.
+    - **Valor por defecto**: `ExtSorter`.
+
+- Ficheros mínimos para confirmación: Número mínimo de ficheros que tienen que ser seleccionados en la Ventana Final para que se pida una confirmación.
+    - Rango desde `0-1000`. Si se ponen `0`, nunca se pedirá confirmación.
+    - **Valor por defecto**: `100`.
+
+- Las últimas tres opciones indican el comportamiento predeterminado de las casillas en la Ventana Principal:
+    - `Manual`: El usuario decide si activar o no las casillas.
+    - `Siempre`: Las casillas se quedan marcadas por defecto.
+    - `Nunca`: Las casillas se quedan desmarcadas por defecto.
+    - **Valor por defecto**: `Manual`.
 
 ## Próximas características
+- [ ] Opción para quitar advertencias y confirmaciones.
 - [ ] Detección y tratamiento de ficheros duplicados.
 - [ ] Compresión de ficheros con quazip.
 - [ ] Port a Linux.
 
 ## Créditos
-Los iconos usados en el programa no son míos, fueron creados por otros autores y descargados desde [Flaticon](https://www.flaticon.com). En la siguiente tabla se acreditan a los creadores de cada icono.
+Los iconos usados en el programa no son míos, fueron creados por otros autores y descargados desde [Flaticon](https://www.flaticon.com). En la siguiente tabla se acreditan a los creadores de cada icono. Los iconos marcados con un `*` fueron ligeramente modificados para la aplicación.
 
 | Autor | Iconos |
 |-------|--------|
-| [Kerismaker](https://www.flaticon.com/authors/kerismaker) * | <a href="https://www.flaticon.com/free-icon/file_13542066"><img src="readme_images/file (kerismaker).png" width="60px"></a> |
-| [Freepik](https://www.flaticon.com/authors/freepik) | <img src="images/add.png" width="50px"> <img src="images/exit.png" width="50px"> <img src="images/list.png" width="50px"> <img src="images/minus.png" width="50px"> <img src="images/settings.png" width="50px"> <img src="images/warning.png" width="50px"> <img src="images/zip.png" width="50px"> |
+| [Kerismaker](https://www.flaticon.com/authors/kerismaker) | <a href="https://www.flaticon.com/free-icon/file_13542066"><img src="readme_images/file (kerismaker).png" width="60px"></a> <span style="position:absolute; top:5px; font-size:18px;">*</span></div> |
+| [Freepik](https://www.flaticon.com/authors/freepik) | <img src="images/add.png" width="50px"> <img src="images/exit.png" width="50px"> <img src="images/list.png" width="50px"> <img src="images/minus.png" width="50px"> <img src="images/settings.png" width="50px"> <img src="images/warning.png" width="50px"> <img src="readme_images/zip (Freepik).png" width="50px"> <span style="position:absolute; top:5px; right:0px; font-size:18px;">*</span></div>|
 | [kmg design](https://www.flaticon.com/authors/kmg-design) | <img src="images/icono-carpeta.png" width="50px"> <img src="images/delete.png" width="50px"> |
 | [Anggara](https://www.flaticon.com/authors/anggara) | <img src="images/information.png" width="50px"> <img src="images/question.png" width="50px"> |
-| [iconixar](https://www.flaticon.com/authors/iconixar) ** | <img src="readme_images/move (iconixar).png" width="60px"> |
+| [iconixar](https://www.flaticon.com/authors/iconixar) | <img src="readme_images/move (iconixar).png" width="60px"> <span style="position:absolute; top:5px;  font-size:18px;">*</span></div> |
 | [Laisa Islam Ani](https://www.flaticon.es/autores/laisa-islam-ani) | <img src="images/reset.png" width="50px"> |
-
-
-\* El icono original fue ligeramente modificado, añadiendo un trazo negro alrededor y dentro del mismo.\
-\*\* El icono original fue ligeramente modificado, cambiando el color del fichero de blanco a azul.  
-El icono del zip fue modificado, ajustando ligeramente los colores de la carpeta.
