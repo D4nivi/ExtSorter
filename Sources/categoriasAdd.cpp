@@ -24,26 +24,25 @@ void CategoriasAdd::crearUI()
 
     // Botones
     ui->btnGuardar->setDisabled(true);
-    ui->btnRestablecer->setEnabled(ExtensionManager::filesModified);
+    ui->btnRestablecer->setEnabled(extensionManager->wereFilesModified());
 
     // Cajas de texto
     ui->mensajeError->setText("");
-    ui->cajaCategoria->setMaxLength(ExtensionManager::maxCategoryChars);
     ui->cajaCategoria->setPlaceholderText("Puedes usar emojis. Por ejemplo: 🌐 Web, ✨ Adobe, ...");
+    ui->cajaCategoria->setMaxLength(ExtensionManager::maxCategoryChars);
     ui->cajaExtensiones->setPlaceholderText("Escribe las extensiones separadas por comas (,).\nPor ejemplo: png,jpg,tiff...");
 
     /* --- Cabecera --- */
-    QLabel * textoCabecera = new QLabel("Añade tus propias categorías y personaliza al máximo el ordenamiento.");
+    QLabel * textoCabecera = new QLabel("Añade tus propias categorías al programa.");
     textoCabecera->setFixedHeight(50);
-    textoCabecera->setWordWrap(true);
     textoCabecera->setStyleSheet(
         "background-color: #FFFFFF; color: black;"
         "font-size: 12px; font-weight: bold;"
-        "padding-left: 20px; padding-bottom: 10px;"
-        "border-bottom: 1px solid #c6cac6;"
-        );
+        "padding-left: 20px;"
+        "border-bottom: 1px solid #c6cac6; border-top: 1px solid #c6cac6;"
+    );
 
-    /* Meter texto y logo en la cabecera */
+    /* Meter texto en la cabecera */
     ui->layoutCabecera->addWidget(textoCabecera, Qt::AlignLeft);
 }
 
@@ -64,15 +63,15 @@ void CategoriasAdd::enableSave()
 {
     QString textoCaja = ui->cajaExtensiones->toPlainText();
     nuevaCategoria = ui->cajaCategoria->text();
-    QString categoriaRepetida;
     bool catRep = extensionManager->getCategorias().contains(nuevaCategoria, Qt::CaseInsensitive);
+    bool nombreValido = ExtensionManager::isFolderNameValid(nuevaCategoria);
 
     if (catRep) {
-        categoriaRepetida = QString(nuevaCategoria[0].toUpper() + nuevaCategoria.sliced(1).toLower());     // Esto es como un .capitalize()
-        ui->mensajeError->setText(QString("<span style='color: red;'><b>Categoría ya existente</b></span>: la categoría <b>\"%1\"</b> ya existe.").arg(categoriaRepetida));
+        ui->mensajeError->setText(QString("<span style='color: red;'><b>Categoría ya existente</b></span>: la categoría <b>\"%1\"</b> ya existe.").arg(nuevaCategoria.toLower()));
     }
-
-    bool categoriaCorrecta = !nuevaCategoria.isEmpty() && !catRep;
+    else if (!nombreValido) {
+        ui->mensajeError->setText(QString("<span style='color: red;'><b>Nombre de categoría inválido.</b></span>"));
+    }
 
     /* Nota: esta comprobación se hacía con un else if dentro de checkExtensionListFormat para evitar que apareciera texto
      * cuando se borraba de golpe el cuadro de categoria. Se deja aquí porque nunca se comprobaría al asignar "activar",
@@ -80,7 +79,7 @@ void CategoriasAdd::enableSave()
     if (textoCaja.isEmpty() && !catRep) ui->mensajeError->setText("");
 
     // Activar el botón
-    bool activar = categoriaCorrecta && extensionManager->checkExtensionListFormat(textoCaja, ui->mensajeError);
+    bool activar = !catRep && nombreValido && extensionManager->checkExtensionListFormat(textoCaja, ui->mensajeError);
     if (activar) ui->mensajeError->setText("");
     ui->btnGuardar->setEnabled(activar);
 }
@@ -90,14 +89,16 @@ void CategoriasAdd::btnGuardarClicked()
 {
     /* --- Actualizar Atributos (internos y de clase ExtensionManager) --- */
     QStringList categorias = extensionManager->getCategorias();
-    QStringList extensionesCaja = ui->cajaExtensiones->toPlainText().split(",");
+    QString extensionesCaja = ui->cajaExtensiones->toPlainText().toLower();
+    QStringList listaExtensiones = extensionesCaja.split(",");
+
     QSet<QString> nuevasExtensiones;
     QStringList nuevasExtensionesList;
     categorias.append(nuevaCategoria);
 
     qDebug() << "Nueva Categoría:" << nuevaCategoria << Qt::endl << "Nuevas Extensiones:" << extensionesCaja;
 
-    for (const QString &ext : std::as_const(extensionesCaja)) {
+    for (const QString &ext : std::as_const(listaExtensiones)) {
         nuevasExtensiones.insert(ext);
         nuevasExtensionesList.append(ext);
     }
@@ -115,7 +116,7 @@ void CategoriasAdd::btnGuardarClicked()
     }
 
     /* Fichero .txt de extensiones */
-    extensionManager->addExtensionesTXT(ui->cajaExtensiones->toPlainText());
+    extensionManager->addExtensionesTXT(extensionesCaja);
 }
 
 void CategoriasAdd::btnAceptarClicked()

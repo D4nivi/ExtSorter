@@ -18,23 +18,59 @@ const QMap<QString, QSet<QString>> ExtensionManager::defaultCategoriasYExtension
     {"Video",      {"avi", "flv", "m4v", "mkv", "mov", "mp4", "mpg", "mxf", "webm", "wmv"}}
 };
 
-bool ExtensionManager::filesModified = false;
+/* Función auxiliar estática */
+bool ExtensionManager::isFolderNameValid(QString &nombreCarpeta)
+{
+    /* 1. No vacío */
+    if (nombreCarpeta.isEmpty()) {
+        return false;
+    }
+
+    /* 2. No puede terminar en espacio o punto */
+    if (nombreCarpeta.endsWith(' ') || nombreCarpeta.endsWith('.')) {
+        return false;
+    }
+
+    /* 3. Comprobar caracteres ilegales */
+    static const QString illegalChars = "\\/:*?\"<>|";
+    for (QChar c : nombreCarpeta) {
+        if (illegalChars.contains(c))
+            return false;
+    }
+
+    /* 4. Comprobar nombres reservados */
+    static const QSet<QString> reserved = {
+        "CON", "PRN", "AUX", "NUL",
+        "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9",
+        "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"
+    };
+
+    if (reserved.contains(nombreCarpeta.toUpper())) {
+        return false;
+    }
+
+    return true;
+}
 
 /* Función auxiliar para checkExtensionListFormat() */
 int isAlphaNumOrComma(const QString &s)
 {
+    /* Nota: por lo que sea isLetter() detecta "º" y "ª" como caracteres alfanuméricos (?) */
     for (QChar c : s) {
-        if (!(c.isDigit() || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == ',')) {
+        if ((!c.isLetterOrNumber() && c != ",") || (c == "º" || c == "ª")) {
             return false;
         }
     }
     return true;
 }
 
-ExtensionManager::ExtensionManager(QObject *parent)
-    : QObject{parent}
+ExtensionManager::ExtensionManager(QSettings * settings)
+    : categoriasYExtensiones(new QMap<QString, QSet<QString>>),settings(settings)
+{}
+
+ExtensionManager::~ExtensionManager()
 {
-    categoriasYExtensiones = new QMap<QString, QSet<QString>>;
+    delete categoriasYExtensiones;
 }
 
 /**** MÉTODOS JSON ****/
@@ -67,7 +103,7 @@ bool ExtensionManager::escribirExtensionesJSON()
     file.write(doc.toJson(QJsonDocument::Indented));
     file.close();
 
-    filesModified = true;
+    settings->setValue("filesModified", true);
     return true;
 }
 
@@ -112,7 +148,7 @@ bool ExtensionManager::addCategoriasJSON(QString &nuevaCategoria, QStringList &n
         file.close();
     }
 
-    filesModified = true;
+    settings->setValue("filesModified", true);
     return true;
 }
 
@@ -139,12 +175,13 @@ void ExtensionManager::leerJSON()
     /* Algoritmo */
     qDebug() << "El fichero JSON es válido. Comenzando lectura...";
     QJsonObject rootObject = doc.object();
+    QStringList keys = rootObject.keys();
 
-    for (const QString &categoria : rootObject.keys()) {
+    for (const QString &categoria : std::as_const(keys)) {
         QSet<QString> setExtensiones;
         QJsonValue extensionesJSON = rootObject.value(categoria);
 
-        qDebug() << "Categoria:" << categoria << Qt::endl << "Extensiones:" << extensionesJSON << Qt::endl;
+        //qDebug() << "Categoria:" << categoria << Qt::endl << "Extensiones:" << extensionesJSON << Qt::endl;
 
         if (extensionesJSON.isArray()) {
             QJsonArray arr = extensionesJSON.toArray();
@@ -153,6 +190,7 @@ void ExtensionManager::leerJSON()
                 setExtensiones.insert(extVal.toString());
             }
         }
+
         categoriasYExtensiones->insert(categoria, setExtensiones);
     }
 
@@ -250,29 +288,33 @@ QSet<QString> ExtensionManager::getExtensionsFromTXT()
     return set;
 }
 
+bool ExtensionManager::wereFilesModified()
+{
+    return settings->value("filesModified").toBool();
+}
 
 /**** MÉTODOS AUXILIARES ****/
 void ExtensionManager::resetCategoriasYExtensiones()
 {
     *categoriasYExtensiones = defaultCategoriasYExtensiones;
-    filesModified = false;
+    settings->setValue("filesModified", false);
 }
 
 bool ExtensionManager::restoreCategoriasYExtensiones()
 {
-    QString msg = "¿Estás seguro de que deseas restablecer las extensiones a sus valores predeterminados? Esto eliminará cualquier categoría/extensión que hayas creado/añadido.";
+    QString msg = "¿Estás seguro de que deseas restablecer las extensiones? Esto eliminará cualquier categoría/extensión que hayas creado/añadido.";
     bool success = false;
 
-    if (CustomMessageBox::mostrarConfirmacion(nullptr, "Confirmar Restablecer", msg, IconManager::IconType::Warning)) {
+    if (CustomMessageBox::mostrarConfirmacion(nullptr, "Confirmar Restablecer Extensiones", msg)) {
         qDebug() << "Restableciendo extensiones...";
 
         /* Actualizar Atributos y Ficheros */
         resetCategoriasYExtensiones();
         success = escribirExtensionesJSON() && escribirTXT(true);
-        filesModified = false;  // vuelvo a ponerlo porque al escribir el JSON se pone a true
+        settings->setValue("filesModified", false);  // vuelvo a ponerlo porque al escribir el JSON se pone a true
 
         if (success) {
-            CustomMessageBox::info(nullptr, "Extensiones Restablecidas", "Extensiones restablecidas con éxito.");
+            CustomMessageBox::info(nullptr, "Restablecer Extensiones", "Extensiones restablecidas con éxito.");
             qDebug() << "Extensiones restablecidas.";
         } else {
             QMessageBox::critical(nullptr, "Error al restablecer extensiones", "Ha ocurrido un error al intentar restablecer las extensiones. Se recomienda reiniciar la aplicación.");

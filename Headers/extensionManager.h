@@ -8,25 +8,28 @@
 #include <QLabel>
 #include <QMessageBox>
 #include <QDebug>
+#include <QSettings>
 #include <QStandardPaths>
 #include <QProgressBar>
 #include <QVBoxLayout>
 
-class ExtensionManager : public QObject
+class ExtensionManager
 {
-    Q_OBJECT
 public:
-    explicit ExtensionManager(QObject *parent = nullptr);
+    ExtensionManager(QSettings * settings);
+    ~ExtensionManager();
 
-    static bool filesModified;
     static const QString jsonFilePath;
     static const QString txtFilePath;
     static const int maxCategoryChars;
     static const int maxExtensionBoxChars;
     static const QMap<QString, QSet<QString>> defaultCategoriasYExtensiones;
 
+    static bool isFolderNameValid(QString &nombreCarpeta);
+
 private:
     QMap<QString, QSet<QString>> * categoriasYExtensiones;
+    QSettings * settings;
 
 /* --- Funciones --- */
 public:
@@ -40,19 +43,25 @@ public:
 
     bool addExtensionesTXT(QString extensionesEnTexto);
 
+    bool restoreCategoriasYExtensiones();
+
+    bool checkExtensionListFormat(QString &textoCaja, QLabel * mensajeError);
+
+
+
+    /* GETTERS */
     QMap<QString, QSet<QString>> * getCategoriasYExtensiones();
 
     QStringList getCategorias();
 
     QSet<QString> getExtensionsFromTXT();
 
+    bool wereFilesModified();
+
+private:
+    /* MÉTODOS AUXILIARES */
     void resetCategoriasYExtensiones();
 
-    bool restoreCategoriasYExtensiones();
-
-    bool checkExtensionListFormat(QString &textoCaja, QLabel * mensajeError);
-
-signals:
 };
 
 #endif // EXTENSIONMANAGER_H

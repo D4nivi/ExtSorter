@@ -236,6 +236,8 @@
     </property>
     <addaction name="actionListar"/>
     <addaction name="actionRestablecer"/>
+    <addaction name="separator"/>
+    <addaction name="actionPreferencias"/>
    </widget>
    <addaction name="menuArchivo"/>
    <addaction name="menuVer"/>
@@ -337,6 +339,16 @@
    </property>
    <property name="text">
     <string>Restablecer Extensiones</string>
+   </property>
+  </action>
+  <action name="actionPreferencias">
+   <property name="icon">
+    <iconset>
+     <normalon>:/images/settings.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Preferencias</string>
    </property>
   </action>
  </widget>

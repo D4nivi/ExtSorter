@@ -4,7 +4,9 @@
 #include <QDesktopServices>
 #include <QFileDialog>
 #include <QGroupBox>
+#include <QLabel>
 #include <QListWidget>
+#include <QProgressBar>
 #include <QThread>
 
 class MainWindow;
@@ -18,7 +20,11 @@ class FinalWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit FinalWindow(QString carpetaSeleccionada, QMap<QString, int> fileCounter, QWidget *parent = nullptr);
+    explicit FinalWindow(int minFicherosConfirmacion,
+                         const QString &carpetaSeleccionada,
+                         const QString &nombreCarpetaDestino,
+                         QMap<QString, int> * fileCounter, QWidget *parent = nullptr
+    );
     ~FinalWindow();
 
 private:
@@ -31,8 +37,10 @@ private:
     QSet<QString> carpetasSeleccionadas;
 
     /* --- Atributos necesarios del padre --- */
+    int minFicherosConfirmacion;
     QString carpetaSeleccionada;
-    QMap<QString, int> fileCounter;
+    QString nombreCarpetaDestino;
+    QMap<QString, int> * fileCounter;
 
     /* --- Widgets principales --- */
     QListWidget * lista;

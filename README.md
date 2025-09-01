@@ -43,9 +43,9 @@ ExtSorter está pensado para usarse en **carpetas desordenadas** con una gran ca
 Para empezar a usar ExtSorter, selecciona una carpeta con el botón o desde el menú con ``Archivo -> Abrir``.
 
 <div align="center">
-    <img src="readme_images/Pantalla principal.png" width="40%" alt="Pantalla principal">
+    <img src="readme_images/Ventana principal.png" width="40%" alt="Ventana principal">
 </div>
-<div align="center"><i><b>Pantalla principal</b></i></div><br>
+<div align="center"><i><b>Ventana principal</b></i></div><br>
 
 Una vez seleccionada la carpeta, se pulsa el botón Comenzar. ExtSorter creará una carpeta dentro de la carpeta seleccionada, llamada ``ExtSorter``, donde se guardarán las carpetas con los ficheros ordenados.
 
@@ -61,9 +61,9 @@ Hay ocasiones en las que el programa puede no continuar:
 Una vez se termina, saltará un mensaje avisando de que el proceso finalizó. Cerrar el cuadro hará que el programa pase a la ventana de manipulación de las carpetas (ventana final).
 
 <div align="center">
-    <img src="readme_images/Pantalla final.png" width="40%" alt="Pantalla principal">
+    <img src="readme_images/Ventana final.png" width="40%" alt="Ventana principal">
 </div>
-<div align="center"><i><b>Pantalla final</b></i></div><br>
+<div align="center"><i><b>Ventana final</b></i></div><br>
 
 En esta ventana se puede decidir qué hacer con las carpetas que ha creado el programa; simplemente marca las casillas con las carpetas a manipular y selecciona la acción:
 - ``Comprimir``: comprime las carpetas seleccionadas en un fichero `.zip`. El fichero se crea en la carpeta ``ExtSorter``.
@@ -90,9 +90,9 @@ Antes de comenzar el programa, puedes seleccionar tres opciones en la ventana pr
 Para ver las categorías y extensiones del programa, ve al menú y dale a ``Ver -> Categorías y extensiones``. Se abrirá una ventana con una tabla con todas las categorías y extensiones.
 
 <div align="center">
-    <img src="readme_images/Pantalla ver categorías y extensiones.png" width="60%" alt="Pantalla Ver Categorías y Extensiones">
+    <img src="readme_images/Ventana ver categorías y extensiones.png" width="60%" alt="Ventana Ver Categorías y Extensiones">
 </div>
-<div align="center"><i><b>Pantalla Ver Categorías y Extensiones</b></i></div><br>
+<div align="center"><i><b>Ventana Ver Categorías y Extensiones</b></i></div><br>
 
 El programa cuenta por defecto con 7 categorías y 77 extensiones. En la siguiente tabla se muestran las categorías y extensiones predeterminadas del programa.
 
@@ -114,29 +114,29 @@ El programa permite personalizar por completo las categorías y las extensiones 
 - Para **crear** una nueva categoría, haz click en ``Archivo -> Añadir Categorías``. Se abrirá una ventana en la que podrás elegir el nombre y las extensiones para la nueva categoría.
 
 <div align="center">
-    <img src="readme_images/Pantalla añadir categorías.png" width="40%" alt="Pantalla Añadir categorías">
+    <img src="readme_images/Ventana añadir categorías.png" width="40%" alt="Ventana Añadir categorías">
 </div>
-<div align="center"><i><b>Pantalla Añadir categorías</b></i></div><br>
+<div align="center"><i><b>Ventana Añadir categorías</b></i></div><br>
 
 - Para **eliminar** una categoría, haz click en ``Archivo -> Eliminar Categorías``. Se abrirá una ventana en la que podrás seleccionar la categoría a eliminar o, si se prefiere, eliminarlas todas.
 
 <div align="center">
-    <img src="readme_images/Pantalla eliminar categorías.png" width="40%" alt="Pantalla Eliminar categorías">
+    <img src="readme_images/Ventana eliminar categorías.png" width="40%" alt="Ventana Eliminar categorías">
 </div>
-<div align="center"><i><b>Pantalla Eliminar categorías</b></i></div><br>
+<div align="center"><i><b>Ventana Eliminar categorías</b></i></div><br>
 
 - Para **añadir nuevas extensiones** a una categoría, haz click en ``Archivo -> Añadir Extensiones``. Se abrirá una ventana en la que podrás seleccionar una de las categorías creadas para añadir nuevas extensiones.
 
 <div align="center">
-    <img src="readme_images/Pantalla añadir extensiones.png" width="40%" alt="Pantalla Añadir extensiones">
+    <img src="readme_images/Ventana añadir extensiones.png" width="40%" alt="Ventana Añadir extensiones">
 </div>
-<div align="center"><i><b>Pantalla Añadir extensiones</b></i></div><br>
+<div align="center"><i><b>Ventana Añadir extensiones</b></i></div><br>
 
 - Para **restablecer** las categorías y extensiones a las predeterminadas, puede usarse el botón ``Restablecer`` dentro de las ventanas de ``Añadir Extensiones`` y ``Añadir Categorías``, o directamente desde ``Ver -> Restablecer extensiones``.
 
 
 >_Nota_
->- Las categorías predeterminadas tienen sus propios emojis que se muestran en la **pantalla final**. Si se eliminan dichas categorías y se vuelven a crear, este emoji se seguirá mostrando en la pantalla final.
+>- Las categorías predeterminadas tienen sus propios emojis que se muestran en la **ventana final**. Si se eliminan dichas categorías y se vuelven a crear, este emoji se seguirá mostrando en la ventana final.
 
 ## Próximas características
 - [ ] Detección y tratamiento de ficheros duplicados.
@@ -149,7 +149,7 @@ Los iconos usados en el programa no son míos, fueron creados por otros autores 
 | Autor | Iconos |
 |-------|--------|
 | [Kerismaker](https://www.flaticon.com/authors/kerismaker) * | <a href="https://www.flaticon.com/free-icon/file_13542066"><img src="readme_images/file (kerismaker).png" width="60px"></a> |
-| [Freepik](https://www.flaticon.com/authors/freepik) | <img src="images/add.png" width="50px"> <img src="images/exit.png" width="50px"> <img src="images/list.png" width="50px"> <img src="images/minus.png" width="50px"> <img src="images/warning.png" width="50px"> |
+| [Freepik](https://www.flaticon.com/authors/freepik) | <img src="images/add.png" width="50px"> <img src="images/exit.png" width="50px"> <img src="images/list.png" width="50px"> <img src="images/minus.png" width="50px"> <img src="images/settings.png" width="50px"> <img src="images/warning.png" width="50px"> <img src="images/zip.png" width="50px"> |
 | [kmg design](https://www.flaticon.com/authors/kmg-design) | <img src="images/icono-carpeta.png" width="50px"> <img src="images/delete.png" width="50px"> |
 | [Anggara](https://www.flaticon.com/authors/anggara) | <img src="images/information.png" width="50px"> <img src="images/question.png" width="50px"> |
 | [iconixar](https://www.flaticon.com/authors/iconixar) ** | <img src="readme_images/move (iconixar).png" width="60px"> |
@@ -158,3 +158,4 @@ Los iconos usados en el programa no son míos, fueron creados por otros autores 
 
 \* El icono original fue ligeramente modificado, añadiendo un trazo negro alrededor y dentro del mismo.\
 \*\* El icono original fue ligeramente modificado, cambiando el color del fichero de blanco a azul.  
+El icono del zip fue modificado, ajustando ligeramente los colores de la carpeta.

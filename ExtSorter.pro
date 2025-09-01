@@ -17,7 +17,8 @@ SOURCES += \
     Sources/finalwindow.cpp \
     Sources/main.cpp \
     Sources/mainwindow.cpp \
-    Sources/zipworker.cpp
+    Sources/preferencias.cpp \
+    Sources/zipworker.cpp \
 
 HEADERS += \
     Headers/categoriasAdd.h \
@@ -26,16 +27,17 @@ HEADERS += \
     Headers/extensionManager.h \
     Headers/extensiones.h \
     Headers/finalwindow.h \
-    Headers/iconManager.h \
     Headers/mainwindow.h \
-    Headers/zipworker.h
+    Headers/preferencias.h \
+    Headers/zipworker.h \
 
 FORMS += \
     Forms/categoriasAdd.ui \
     Forms/categoriasDelete.ui \
     Forms/extensiones.ui \
     Forms/finalwindow.ui \
-    Forms/mainwindow.ui
+    Forms/mainwindow.ui \
+    Forms/preferencias.ui
 
 RC_ICONS = images/icono-app.ico
 

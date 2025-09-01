@@ -3,11 +3,12 @@
 
 #include "finalwindow.h"
 #include "extensionManager.h"
+#include "preferencias.h"
 
 #include <QMainWindow>
 #include <QFile>
 #include <QTableWidget>
-
+#include <QSettings>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -23,8 +24,6 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    static const QString nombreCarpetaDestino;
-
 private:
     Ui::MainWindow *ui;
 
@@ -35,8 +34,8 @@ private:
     QString carpetaSeleccionada;
     QMap<QString, int> fileCounter;
 
+    QSettings settings;
     ExtensionManager extensionManager;
-    FinalWindow * ventanaFinal;
 
 private slots:
     void btnComenzarClicked();
@@ -63,6 +62,8 @@ private slots:
 
     void actionRestablecerTriggered();
 
+    void actionPreferenciasTriggered();
+
     void actionVerAyudaTriggered();
 
     void actionAcercaDeTriggered();
@@ -74,8 +75,9 @@ private slots:
 signals:
     void sortComplete();    // Señal enviada cuando se termina el proceso del botón Comenzar
 
+/* --- Métodos auxiliares --- */
 private:
-    /* --- Métodos auxiliares --- */
+    void loadSettings();
     void crearUI();
     void conectarSeñales();
 };

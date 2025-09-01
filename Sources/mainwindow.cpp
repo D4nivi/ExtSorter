@@ -4,18 +4,19 @@
 #include "Headers/categoriasDelete.h"
 #include "Headers/customMessageBox.h"
 #include "Headers/extensiones.h"
+#include "Headers/preferencias.h"
 
 #include <QProgressBar>
 
-const QString MainWindow::nombreCarpetaDestino = "ExtSorter";
-
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    : QMainWindow(parent), ui(new Ui::MainWindow), settings(QSettings("Danivi", "ExtSorter")), extensionManager(&settings)
 {
+    loadSettings();
+
     excluirOtros = false;
     borrarCarpetasVacias = false;
     borrarAccesosDirectos = false;
+
     extensionManager.leerJSON();
     extensionManager.escribirTXT();
 
@@ -29,6 +30,50 @@ MainWindow::~MainWindow()
 }
 
 /**** MÉTODOS AUXILIARES ****/
+void aplicarPreferenciaCheckBox(QCheckBox * checkBox, ValorOpcion preferencia, bool &var) {
+    switch (preferencia) {
+    case ValorOpcion::SIEMPRE:
+        checkBox->setChecked(true);
+        checkBox->setEnabled(false);
+        var = true;
+        break;
+    case ValorOpcion::NUNCA:
+        checkBox->setChecked(false);
+        checkBox->setEnabled(false);
+        var = false;
+        break;
+    case ValorOpcion::MANUAL:
+        checkBox->setChecked(false);
+        checkBox->setEnabled(true);
+        var = false;
+        break;
+    }
+}
+
+void MainWindow::loadSettings()
+{
+    if (settings.allKeys().isEmpty()) {
+        qDebug() << "Archivo de configuración no detectado. Se ha creado el archivo de configuración";
+        settings.setValue("filesModified", false);
+        settings.setValue("settingsModified", false);
+        settings.setValue("nombreCarpetaDestino", "ExtSorter");
+        settings.setValue("minFicherosConfirmacion", 100);
+        settings.setValue("defaultBorrarCarpetasVacias", static_cast<int>(ValorOpcion::MANUAL));
+        settings.setValue("defaultBorrarAccesosDirectos", static_cast<int>(ValorOpcion::MANUAL));
+        settings.setValue("defaultExcluirOtros", static_cast<int>(ValorOpcion::MANUAL));
+    }
+    /* Debug
+    QStringList a = settings.allKeys();
+    qDebug() << "--- Preferencias ---";
+
+    for (const auto &e : a) {
+        qDebug() << QString("%1: %2").arg(e, settings.value(e).toString());
+    }
+
+    qDebug() << Qt::endl;
+    */
+}
+
 void MainWindow::crearUI()
 {
     ui->setupUi(this);
@@ -45,6 +90,11 @@ void MainWindow::crearUI()
     /* --- Instrucciones ---*/
     ui->textoInfo->setStyleSheet("font-size: 12px; font-weight: bold;");
 
+    /* CheckBoxes */
+    aplicarPreferenciaCheckBox(ui->chkBorrarCarpetas, static_cast<ValorOpcion>(settings.value("defaultBorrarCarpetasVacias").toInt()), borrarCarpetasVacias);
+    aplicarPreferenciaCheckBox(ui->chkBorrarAccesosDirectos, static_cast<ValorOpcion>(settings.value("defaultBorrarAccesosDirectos").toInt()), borrarAccesosDirectos);
+    aplicarPreferenciaCheckBox(ui->chkExcluirOtros, static_cast<ValorOpcion>(settings.value("defaultExcluirOtros").toInt()), excluirOtros);
+
     /* --- Footer --- */
     ui->colorFondo->setStyleSheet("background-color: white; border-top: 1px solid #c6cac6;");
 }
@@ -56,15 +106,21 @@ void MainWindow::conectarSeñales()
     connect(ui->actionAddCategorias, &QAction::triggered, this, &MainWindow::actionAddCategoriastriggered);
     connect(ui->actionDeleteCategorias, &QAction::triggered, this, &MainWindow::actionDeleteCategoriastriggered);
     connect(ui->actionSalir, &QAction::triggered, this, &MainWindow::actionSalirTriggered);
+
     connect(ui->actionListar, &QAction::triggered, this, &MainWindow::actionListarTriggered);
     connect(ui->actionRestablecer, &QAction::triggered, this, &MainWindow::actionRestablecerTriggered);
+    connect(ui->actionPreferencias, &QAction::triggered, this, &MainWindow::actionPreferenciasTriggered);
+
     connect(ui->actionVerAyuda, &QAction::triggered, this, &MainWindow::actionVerAyudaTriggered);
     connect(ui->actionAcercaDe, &QAction::triggered, this, &MainWindow::actionAcercaDeTriggered);
+
     connect(ui->btnComenzar, &QPushButton::clicked, this, &MainWindow::btnComenzarClicked);
     connect(ui->btnSelecCarpeta, &QPushButton::clicked, this, &MainWindow::btnSelecCarpetaClicked);
+
     connect(ui->chkExcluirOtros, &QCheckBox::checkStateChanged, this, &MainWindow::chkExcluirOtrosStateChanged);
     connect(ui->chkBorrarCarpetas, &QCheckBox::checkStateChanged, this, &MainWindow::chkBorrarCarpetasStateChanged);
     connect(ui->chkBorrarAccesosDirectos, &QCheckBox::checkStateChanged, this, &MainWindow::chkBorrarSymlinksStateChanged);
+
     connect(this, &MainWindow::sortComplete, this, &MainWindow::changeWindow);
 }
 
@@ -73,10 +129,13 @@ void MainWindow::conectarSeñales()
 void MainWindow::changeWindow()
 {
     this->hide();
-    ventanaFinal = new FinalWindow(carpetaSeleccionada, fileCounter, nullptr);
-    connect(ventanaFinal, &FinalWindow::closeMainWindow, this, &MainWindow::actionSalirTriggered);
+    QString nombreCarpetaDestino = settings.value("nombreCarpetaDestino").toString();
+    int minFicherosConfirmacion = settings.value("minFicherosConfirmacion").toInt();
 
+    FinalWindow * ventanaFinal = new FinalWindow(minFicherosConfirmacion, carpetaSeleccionada, nombreCarpetaDestino, &fileCounter, nullptr);
+    connect(ventanaFinal, &FinalWindow::closeMainWindow, this, &MainWindow::actionSalirTriggered);
     ventanaFinal->exec();
+
     this->show();
 }
 
@@ -86,9 +145,9 @@ void MainWindow::restoreMainWindowValues()
     fileCounter.clear();
 
     ui->btnComenzar->setEnabled(false);
-    ui->chkExcluirOtros->setCheckState(Qt::Unchecked);
-    ui->chkBorrarCarpetas->setCheckState(Qt::Unchecked);
-    ui->chkBorrarAccesosDirectos->setCheckState(Qt::Unchecked);
+    aplicarPreferenciaCheckBox(ui->chkBorrarCarpetas, static_cast<ValorOpcion>(settings.value("defaultBorrarCarpetasVacias").toInt()), borrarCarpetasVacias);
+    aplicarPreferenciaCheckBox(ui->chkBorrarAccesosDirectos, static_cast<ValorOpcion>(settings.value("defaultBorrarAccesosDirectos").toInt()), borrarAccesosDirectos);
+    aplicarPreferenciaCheckBox(ui->chkExcluirOtros, static_cast<ValorOpcion>(settings.value("defaultExcluirOtros").toInt()), excluirOtros);
     ui->textoSelectCarpeta->setText("");
 }
 
@@ -121,6 +180,7 @@ void MainWindow::btnComenzarClicked()
     QCoreApplication::processEvents();      // Si no pongo esto no se deshabilita la pantalla
 
     /* Algoritmo */
+    QString nombreCarpetaDestino = settings.value("nombreCarpetaDestino").toString();
     QDir carpetaDestino = QDir(carpetaSeleccionada + "/" + nombreCarpetaDestino);
     QFileInfoList archivos = carpetaOrigen.entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot);
     QMap<QString, QSet<QString>> * categoriasYExtensiones = extensionManager.getCategoriasYExtensiones();
@@ -169,7 +229,7 @@ void MainWindow::btnComenzarClicked()
             fileCounter.insert("Acceso Directo", ++symlinksEncontrados);
         }
 
-        /* Tratamiento de otros tipos de ficheros (accesos directos, symlinks...) */
+        /* Tratamiento de otros tipos de ficheros */
         else {
             if (!fileCounter.contains("Otros")) QDir().mkpath(carpetaDestino.absolutePath() + "/Otros");
             QFile::rename(carpetaSeleccionada + "/" + fichero.fileName(), carpetaDestino.absolutePath() + "/Otros/" + fichero.fileName());
@@ -200,10 +260,8 @@ void MainWindow::btnComenzarClicked()
             fileCounter.remove("Acceso Directo");
         }
 
-        qDebug() << "Keys antes de quitar:" << keys;
         keys.removeOne("Carpeta");
         keys.removeOne("Acceso Directo");
-        qDebug() << "Keys después de quitar:" << keys;
 
         if (keys.isEmpty()) {
             carpetaOrigen.rmdir(nombreCarpetaDestino);
@@ -350,17 +408,28 @@ void MainWindow::actionListarTriggered()
 
 void MainWindow::actionRestablecerTriggered()
 {
-    if (extensionManager.filesModified) {
+    if (settings.value("filesModified").toBool()) {
         extensionManager.restoreCategoriasYExtensiones();
     } else {
-        CustomMessageBox::info(this, "Nada que hacer", "No se han modificado las extensiones.");
+        CustomMessageBox::info(this, "Restablecer Extensiones", "No se han modificado las extensiones.");
     }
+}
+
+void MainWindow::actionPreferenciasTriggered()
+{
+    Preferencias * ventana = new Preferencias(&settings, this);
+    connect(ventana, &Preferencias::opcionesChanged, this, [this]() {
+        aplicarPreferenciaCheckBox(ui->chkBorrarCarpetas, static_cast<ValorOpcion>(settings.value("defaultBorrarCarpetasVacias").toInt()), borrarCarpetasVacias);
+        aplicarPreferenciaCheckBox(ui->chkBorrarAccesosDirectos, static_cast<ValorOpcion>(settings.value("defaultBorrarAccesosDirectos").toInt()), borrarAccesosDirectos);
+        aplicarPreferenciaCheckBox(ui->chkExcluirOtros, static_cast<ValorOpcion>(settings.value("defaultExcluirOtros").toInt()), excluirOtros);
+    });
+    ventana->setModal(true);
+    ventana->show();
 }
 
 void MainWindow::actionVerAyudaTriggered()
 {
-    // TODO: Poner link al readme cuando suba al github
-    QUrl url("https://github.com/D4nivi/ExtSorter");
+    QUrl url("https://github.com/D4nivi/ExtSorter/blob/master/README.md#cómo-usar");
     QDesktopServices::openUrl(url);
 }
 
@@ -384,8 +453,7 @@ void MainWindow::actionAcercaDeTriggered()
     /* Texto */
     QLabel label("", &ventana);
     label.setTextFormat(Qt::RichText);
-    // TODO: Poner link al repositorio cuando lo suba al github
-    label.setText("ExtSorter creador por <b>Daniel Vidal</b>.<br><b>Versión</b>: 1.0<br><a href=\"https://github.com/D4nivi/ExtSorter\"><b>Repositorio de GitHub</b></a>");
+    label.setText("ExtSorter creador por <b>Daniel Vidal (<i>Danivi</i>)</b>.<br><b>Versión</b>: 1.0<br><a href=\"https://github.com/D4nivi/ExtSorter\"><b>Repositorio de GitHub</b></a>");
     label.setOpenExternalLinks(true);
 
     /* Botón */

@@ -33,20 +33,19 @@ void Extensiones::crearUI()
 
     // Botones
     ui->btnGuardar->setDisabled(true);
-    ui->btnRestablecer->setEnabled(ExtensionManager::filesModified);
+    ui->btnRestablecer->setEnabled(extensionManager->wereFilesModified());
 
     /* --- Cabecera --- */
-    QLabel * textoCabecera = new QLabel("Añade tus propias extensiones a las diferentes categorías disponibles.");
+    QLabel * textoCabecera = new QLabel("Añade más extensiones a las diferentes categorías disponibles.");
     textoCabecera->setFixedHeight(50);
-    textoCabecera->setWordWrap(true);
     textoCabecera->setStyleSheet(
         "background-color: #FFFFFF; color: black;"
         "font-size: 12px; font-weight: bold;"
-        "padding-left: 20px; padding-bottom: 10px;"
-        "border-bottom: 1px solid #c6cac6;"
-        );
+        "padding-left: 20px;"
+        "border-bottom: 1px solid #c6cac6; border-top: 1px solid #c6cac6;"
+    );
 
-    /* Meter texto y logo en la cabecera */
+    /* Meter texto en la cabecera */
     ui->layoutCabecera->addWidget(textoCabecera, Qt::AlignLeft);
 }
 
@@ -86,11 +85,9 @@ void Extensiones::btnGuardarClicked()
     qDebug() << "Extensiones a añadir: {" + textoCaja + "}";
     qDebug() << "Categoria: {" + categoriaExtension + "}";
 
+    QString extensionesCaja = textoCaja.toLower();
     QStringList exts = textoCaja.split(",");
     auto categoriasYExtensiones = extensionManager->getCategoriasYExtensiones();
-
-    /* Actualizamos el fichero de extensiones */
-    extensionManager->addExtensionesTXT(textoCaja);
 
     /* Actualizamos el QMap de ExtensionManager */
     QSet<QString> newSet = categoriasYExtensiones->value(categoriaExtension);
@@ -99,6 +96,9 @@ void Extensiones::btnGuardarClicked()
     }
 
     categoriasYExtensiones->insert(categoriaExtension, newSet);
+
+    /* Actualizamos el fichero de extensiones */
+    extensionManager->addExtensionesTXT(extensionesCaja);
 
     /* Escribimos el archivo json */
     if (extensionManager->escribirExtensionesJSON()) {

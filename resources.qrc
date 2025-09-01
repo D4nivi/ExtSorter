@@ -13,5 +13,7 @@
         <file>images/question.png</file>
         <file>images/reset.png</file>
         <file>images/cabecera-main-window.png</file>
+        <file>images/settings.png</file>
+        <file>images/zip.png</file>
     </qresource>
 </RCC>

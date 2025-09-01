@@ -22,7 +22,7 @@ private:
     QString nuevaCategoria;
     ExtensionManager * extensionManager;
 
-private:
+private slots:
     void enableSave();
 
     void btnGuardarClicked();

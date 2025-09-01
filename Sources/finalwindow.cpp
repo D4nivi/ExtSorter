@@ -1,5 +1,4 @@
 #include "Headers/finalwindow.h"
-#include "Headers/mainwindow.h"
 #include "ui_finalwindow.h"
 #include "Headers/zipworker.h"
 #include "Headers/customMessageBox.h"
@@ -10,8 +9,9 @@ QHash<QString, QString> emojis = {
     {"Imagen", "🖼️"}, {"Otros", "📌"}, {"Proyecto", "🗂️"}, {"Texto", "📜"}, {"Video", "🎬"}
 };
 
-FinalWindow::FinalWindow(QString carpetaSeleccionada, QMap<QString, int> fileCounter, QWidget *parent)
-    : QDialog(parent), ui(new Ui::FinalWindow), carpetaSeleccionada(carpetaSeleccionada), fileCounter(fileCounter)
+FinalWindow::FinalWindow(int minFicherosConfirmacion, const QString &carpetaSeleccionada, const QString &nombreCarpetaDestino, QMap<QString, int> * fileCounter, QWidget *parent)
+    : QDialog(parent), ui(new Ui::FinalWindow),
+    minFicherosConfirmacion(minFicherosConfirmacion), carpetaSeleccionada(carpetaSeleccionada), nombreCarpetaDestino(nombreCarpetaDestino), fileCounter(fileCounter)
 {
     lista = new QListWidget(this);
     crearUI();
@@ -36,7 +36,6 @@ void FinalWindow::crearUI()
     /* --- Cabecera --- */
     QLabel * textoCabecera = new QLabel("Manipula las carpetas creadas.");
     textoCabecera->setFixedHeight(60);
-    textoCabecera->setWordWrap(true);
     textoCabecera->setStyleSheet(
         "background-color: #FFFFFF; color: black;"
         "font-size: 12px; font-weight: bold;"
@@ -54,7 +53,7 @@ void FinalWindow::crearUI()
     QHBoxLayout * layoutBotones = new QHBoxLayout();
 
     /* Rellenar lista con casillas */
-    QStringList opciones = fileCounter.keys();
+    QStringList opciones = fileCounter->keys();
 
     // Esta gilipollez es para que Otros aparezca al final siempre, y no en medio
     if (opciones.contains("Otros")) {
@@ -64,11 +63,11 @@ void FinalWindow::crearUI()
 
     for (const QString &categoria : std::as_const(opciones)) {
         QString textoCasilla = QString("%1 %2 (%3 elementos)")
-            .arg(emojis.value(categoria))
-            .arg(categoria)
-            .arg(fileCounter.value(categoria));
+            .arg(emojis.value(categoria, ""), categoria)
+            .arg(fileCounter->value(categoria));
 
         QListWidgetItem * item = new QListWidgetItem(textoCasilla, lista);
+        item->setData(Qt::UserRole, categoria);
         item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
         item->setCheckState(Qt::Unchecked);
     }
@@ -116,10 +115,10 @@ void FinalWindow::casillaCambiada(QListWidgetItem *item)
 
     if (item->checkState() == Qt::Checked) {
         casillasMarcadas++;
-        carpetasSeleccionadas.insert(item->text().split(" ")[1]);
+        carpetasSeleccionadas.insert(item->data(Qt::UserRole).toString());
     } else {
         casillasMarcadas--;
-        carpetasSeleccionadas.remove(item->text().split(" ")[1]);
+        carpetasSeleccionadas.remove(item->data(Qt::UserRole).toString());
     }
 
     todoSeleccionado = (casillasMarcadas == lista->count());
@@ -165,7 +164,7 @@ void FinalWindow::btnTerminarClicked()
 
 void FinalWindow::btnAbrirCarpetaClicked()
 {
-    QUrl url = QUrl::fromLocalFile(carpetaSeleccionada + "/" + MainWindow::nombreCarpetaDestino);
+    QUrl url = QUrl::fromLocalFile(carpetaSeleccionada + "/" + nombreCarpetaDestino);
     QDesktopServices::openUrl(url);
 }
 
@@ -174,35 +173,37 @@ void FinalWindow::btnAplicarClicked()
     this->setEnabled(false);
     QApplication::processEvents();    // Aunque no me guste, si no pongo esto la pantalla no se desactiva al comprimir
 
-    QString rutaCarpeta = carpetaSeleccionada + "/" + MainWindow::nombreCarpetaDestino;
+    QString rutaCarpeta = carpetaSeleccionada + "/" + nombreCarpetaDestino;
     int index = ui->barraSeleccion->currentIndex();
     QString accion = ui->barraSeleccion->itemText(ui->barraSeleccion->currentIndex());
     QMap<QString, bool> carpetasProcesadas;
     int n_archivos = 0;
 
     for (const QString &categoria : std::as_const(carpetasSeleccionadas)) {
-        n_archivos += fileCounter.value(categoria);
+        n_archivos += fileCounter->value(categoria);
     }
 
     qDebug() << "Ruta Carpeta:" << rutaCarpeta;
     qDebug() << "Archivos a manipular:" << n_archivos;
+
+    /* Confirmación antes de aplicar acción */
+    if (minFicherosConfirmacion != 0 && n_archivos >= minFicherosConfirmacion) {
+        IconManager::IconType icono = IconManager::fromString(accion);
+        QString msg = QString("Estás a punto de %1 %2 archivos. ¿Deseas continuar?").arg(accion.toLower()).arg(n_archivos);
+
+        if (!CustomMessageBox::mostrarConfirmacion(this, "Confirmar " + accion, msg, icono)) {
+            this->setEnabled(true);
+            return;
+        }
+    }
 
     /* --- Comprimir --- */
     if (index == 1) {
         aplicarComprimir(rutaCarpeta);
     }
 
+    /* --- Eliminar y Mover --- */
     else {
-        if (n_archivos >= 100) {
-            IconManager::IconType icono = accion == "Eliminar" ? IconManager::IconType::Eliminar : IconManager::IconType::Mover;
-            QString msg = QString("Estás a punto de %1 %2 archivos. ¿Deseas continuar?").arg(accion.toLower()).arg(n_archivos);
-
-            if (!CustomMessageBox::mostrarConfirmacion(this, "Confirmar " + accion, msg, icono)) {
-                this->setEnabled(true);
-                return;
-            }
-        }
-
         bool success = false;
         if (index == 2)
             success = aplicarEliminar(rutaCarpeta, carpetasProcesadas);
@@ -326,7 +327,7 @@ void FinalWindow::actualizarLista(const QMap<QString, bool> &carpetasProcesadas,
     QStringList carpetasError;
 
     while (i < lista->count()) {
-        QString carpeta = lista->item(i)->text().split(" ")[1];
+        QString carpeta = lista->item(i)->data(Qt::UserRole).toString();
 
         if (!carpetasProcesadas.contains(carpeta))
             i++;

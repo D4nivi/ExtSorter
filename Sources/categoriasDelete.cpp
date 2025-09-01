@@ -36,15 +36,14 @@ void CategoriasDelete::crearUI()
     /* --- Cabecera --- */
     QLabel * textoCabecera = new QLabel("Elimina categorías para crear otras nuevas.");
     textoCabecera->setFixedHeight(50);
-    textoCabecera->setWordWrap(true);
     textoCabecera->setStyleSheet(
         "background-color: #FFFFFF; color: black;"
         "font-size: 12px; font-weight: bold;"
-        "padding-left: 20px; padding-bottom: 10px;"
-        "border-bottom: 1px solid #c6cac6;"
-        );
+        "padding-left: 20px;"
+        "border-bottom: 1px solid #c6cac6; border-top: 1px solid #c6cac6;"
+    );
 
-    /* Meter texto y logo en la cabecera */
+    /* Meter texto en la cabecera */
     ui->layoutCabecera->addWidget(textoCabecera, Qt::AlignLeft);
 }
 
@@ -69,9 +68,9 @@ void CategoriasDelete::btnEliminarClicked()
 {
     int index = ui->barraSeleccion->currentIndex();
     QString categoria = ui->barraSeleccion->itemText(index);
-    QString msg = QString("¿Estás seguro de que quieres eliminar la categoría %1?").arg(categoria);
+    QString msg = QString("¿Estás seguro de que deseas eliminar la categoría %1?").arg(categoria);
 
-    if (!CustomMessageBox::mostrarConfirmacion(this, "Confirmar Eliminar", msg, IconManager::IconType::Warning)) {
+    if (!CustomMessageBox::mostrarConfirmacion(this, "Confirmar Eliminar", msg)) {
         qDebug() << "Eliminación de categoría abortada.";
         return;
     }
@@ -101,8 +100,8 @@ void CategoriasDelete::btnCancelarClicked()
 
 void CategoriasDelete::btnEliminarTodasClicked()
 {
-    QString msg = QString("¿Estás seguro de que quieres eliminar todas las categorías?");
-    if (!CustomMessageBox::mostrarConfirmacion(this, "Confirmar Eliminar Todas", msg, IconManager::IconType::Warning)) {
+    QString msg = QString("¿Estás seguro de que deseas eliminar todas las categorías?");
+    if (!CustomMessageBox::mostrarConfirmacion(this, "Confirmar Eliminar Todas", msg)) {
         qDebug() << "Eliminación de todas las categorías abortada.";
         return;
     }
@@ -116,5 +115,4 @@ void CategoriasDelete::btnEliminarTodasClicked()
     extensionManager->getCategoriasYExtensiones()->clear();
     extensionManager->escribirExtensionesJSON();
     extensionManager->escribirTXT(true);
-    extensionManager->filesModified = true;
 }
