@@ -403,6 +403,7 @@ void MainWindow::actionListarTriggered()
     /* Ajustar tamaño de la ventana */
     tabla.setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
     ventana.adjustSize();
+    ventana.setWindowFlag(Qt::MSWindowsFixedSizeDialogHint, true); // evita que se pueda redimensionar
 
     ventana.exec();
 }
