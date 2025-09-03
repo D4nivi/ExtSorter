@@ -26,6 +26,11 @@ El programa clasifica automáticamente los ficheros en categorías, como imágen
 - [Créditos](#créditos)
 
 ## Showcase
+https://github.com/user-attachments/assets/21d80a1e-ed0a-4082-bfab-28c95bb984d5
+
+https://github.com/user-attachments/assets/fa714e3b-6173-4f06-8391-e0f6a68b083a
+
+https://github.com/user-attachments/assets/325fd71d-98d7-4516-9693-ed3e6f20ad27
 
 ## Requisitos e Instalación
 Actualmente el programa **solo es compatible con Windows**.
