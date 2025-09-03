@@ -19,7 +19,7 @@ const QMap<QString, QSet<QString>> ExtensionManager::defaultCategoriasYExtension
     {"Video",      {"avi", "flv", "m4v", "mkv", "mov", "mp4", "mpg", "mxf", "webm", "wmv"}}
 };
 
-/* Función auxiliar estática */
+/* Función auxiliar estática para comprobaciones en clases CategoriasAdd y Preferencias */
 bool ExtensionManager::isFolderNameValid(QString &nombreCarpeta)
 {
     /* 1. No vacío */

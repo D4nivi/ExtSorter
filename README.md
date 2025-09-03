@@ -33,10 +33,10 @@ Actualmente el programa **solo es compatible con Windows**.
 Puedes instalar la última versión del programa [aquí](insertar enlace a la release). El programa es un simple ejecutable, por lo que además de ser portable, **no es necesario instalar ninguna dependencia**.
 
 Si decides ejecutar el programa desde el código fuente, necesitarás tener instalado:
-- Qt 6
+- Qt 6 (y sus dependencias)
 - Qt Creator
 
-Para ejecutarlo, simplemente abre el proyecto con Qt Creator y ejecútalo.
+Para ejecutarlo, simplemente abre el proyecto con Qt Creator, constrúyelo y ejecútalo.
 
 ## Cómo usar
 ExtSorter está pensado para usarse en **carpetas desordenadas** con una gran cantidad de ficheros (como _podrían_ ser el Escritorio o Descargas). La interfaz de ExtSorter hace que el programa sea muy intuitivo de usar, por lo que probablemente no necesites ver este apartado.
@@ -151,6 +151,7 @@ La ventana de preferencias puede ser accedida desde `Ver -> Preferencias`.
 
 El programa permite modificar ciertos parámetros, que se explican a continuación.
 
+#### General
 - `Nombre carpeta destino`: Nombre de la carpeta en la que se guardan las carpetas con los ficheros ordenados.
     - **Valor por defecto**: `ExtSorter`.
 
@@ -161,10 +162,11 @@ El programa permite modificar ciertos parámetros, que se explican a continuaci�
     - Rango desde `0-1000`. Si se ponen `0`, nunca se pedirá confirmación.
     - **Valor por defecto**: `100`.
 
-- Las últimas tres opciones indican el **comportamiento predeterminado de las casillas** en la Ventana Principal:
-    - `Manual`: El usuario decide si marcar o no las casillas.
-    - `Siempre`: Las casillas se quedan marcadas por defecto.
-    - `Nunca`: Las casillas se quedan desmarcadas por defecto.
+#### Activar casillas
+Estas opciones indican el **comportamiento predeterminado de las casillas** en la Ventana Principal:
+- `Manual`: El usuario decide si marcar o no las casillas.
+- `Siempre`: Las casillas se quedan marcadas por defecto.
+- `Nunca`: Las casillas se quedan desmarcadas por defecto.
     - **Valor por defecto**: `Manual`.
 
 ## Próximas características
