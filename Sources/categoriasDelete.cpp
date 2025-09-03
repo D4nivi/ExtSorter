@@ -103,16 +103,15 @@ void CategoriasDelete::btnEliminarTodasClicked()
     QString msg = QString("¿Estás seguro de que deseas eliminar todas las categorías?");
     if (!CustomMessageBox::mostrarConfirmacion(this, "Confirmar Eliminar Todas", msg)) {
         qDebug() << "Eliminación de todas las categorías abortada.";
-        return;
-    }
+    } else {
+        /* Actualizar UI */
+        for (int i = 0; i < extensionManager->getCategorias().count(); i++) {
+            ui->barraSeleccion->removeItem(1);
+        }
 
-    /* Actualizar UI */
-    for (int i = 0; i < extensionManager->getCategorias().count(); i++) {
-        ui->barraSeleccion->removeItem(1);
+        /* Actualizar atributos y ficheros */
+        extensionManager->getCategoriasYExtensiones()->clear();
+        extensionManager->escribirExtensionesJSON();
+        extensionManager->escribirTXT(true);
     }
-
-    /* Actualizar atributos y ficheros */
-    extensionManager->getCategoriasYExtensiones()->clear();
-    extensionManager->escribirExtensionesJSON();
-    extensionManager->escribirTXT(true);
 }

@@ -3,12 +3,11 @@
 
 #include "finalwindow.h"
 #include "extensionManager.h"
-#include "preferencias.h"
 
-#include <QMainWindow>
 #include <QFile>
-#include <QTableWidget>
+#include <QMainWindow>
 #include <QSettings>
+#include <QTableWidget>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

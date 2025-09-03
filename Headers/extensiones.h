@@ -2,7 +2,6 @@
 #define EXTENSIONES_H
 
 #include "extensionManager.h"
-
 #include <QMessageBox>
 
 namespace Ui {

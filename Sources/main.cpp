@@ -5,20 +5,15 @@
 
 int main(int argc, char *argv[])
 {
-    // TODO: Quitar cuando publique el programa
-    QProcess proceso;
-    proceso.start("python", {"C:\\Users\\danie\\Documents\\PROGRAMACION\\Qt\\ExtSorter\\Pruebas\\Generador.py"});
-    proceso.waitForFinished();
-
-    QCoreApplication::setOrganizationName("Danivi");
-    QCoreApplication::setApplicationName("ExtSorter");
-
     QApplication app(argc, argv);
     app.setWindowIcon(QIcon(":/images/icono-app.png"));
 
-    MainWindow w;
+    /* Para manejar QSettings */
+    QCoreApplication::setOrganizationName("Danivi");
+    QCoreApplication::setApplicationName("ExtSorter");
 
-    /* Propiedades de la ventana principal */
+    /* Ventana principal */
+    MainWindow w;
     w.setWindowTitle("ExtSorter");
     w.setFixedSize(400, 400);
 

@@ -1,16 +1,16 @@
 #ifndef EXTENSIONMANAGER_H
 #define EXTENSIONMANAGER_H
 
+#include <QDebug>
 #include <QDir>
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QLabel>
 #include <QMessageBox>
-#include <QDebug>
+#include <QProgressBar>
 #include <QSettings>
 #include <QStandardPaths>
-#include <QProgressBar>
 #include <QVBoxLayout>
 
 class ExtensionManager
