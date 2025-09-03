@@ -3,23 +3,30 @@
 bool CustomMessageBox::mostrarConfirmacion(QWidget * parent, const QString &titulo, const QString &mensaje, const IconManager::IconType icono,
                                            const QString &textoBotonAceptar, const QString &textoBotonCancelar)
 {
-    QPushButton * btnAceptar = new QPushButton(textoBotonAceptar);
-    QPushButton * btnCancelar = new QPushButton(textoBotonCancelar);
+    bool confirm = true;
+    static const QSettings s;
 
-    QMessageBox msgBox(parent);
-    msgBox.setWindowTitle(titulo);
-    msgBox.setText(mensaje);
-    msgBox.setIconPixmap(IconManager::getIcon(icono).pixmap(32, 32));
+    if (s.value("showWarnings").toBool()) {
+        QPushButton * btnAceptar = new QPushButton(textoBotonAceptar);
+        QPushButton * btnCancelar = new QPushButton(textoBotonCancelar);
 
-    msgBox.addButton(btnAceptar, QMessageBox::AcceptRole);
-    msgBox.addButton(btnCancelar, QMessageBox::RejectRole);
+        QMessageBox msgBox(parent);
+        msgBox.setWindowTitle(titulo);
+        msgBox.setText(mensaje);
+        msgBox.setIconPixmap(IconManager::getIcon(icono).pixmap(32, 32));
 
-    if (icono == IconManager::IconType::Warning) {
-        QApplication::beep();
+        msgBox.addButton(btnAceptar, QMessageBox::AcceptRole);
+        msgBox.addButton(btnCancelar, QMessageBox::RejectRole);
+
+        if (icono == IconManager::IconType::Warning) {
+            QApplication::beep();
+        }
+
+        msgBox.exec();
+        confirm = msgBox.clickedButton() == btnAceptar;
     }
 
-    msgBox.exec();
-    return msgBox.clickedButton() == btnAceptar;
+    return confirm;
 }
 
 void CustomMessageBox::info(QWidget * parent, const QString &titulo, const QString &mensaje)

@@ -54,7 +54,7 @@ Hay ocasiones en las que el programa puede no continuar:
 - La carpeta está vacía o no tiene ficheros (solo carpetas).
 - El usuario no tiene permisos para leer/escribir la carpeta seleccionada.
 
->_Notas importantes_
+>[!IMPORTANT]
 >- El programa no toma en cuenta todas las extensiones de ficheros existentes, por lo que los ficheros cuya extensión no esté contemplada por el programa serán movidos a una carpeta llamada `Otros`.
 >
 >- Las carpetas llenas son ignoradas. Las carpetas vacías pueden eliminarse si se marca su opción (ver [_Casillas de opciones_](#casillas-de-opciones)).
@@ -136,10 +136,10 @@ El programa permite personalizar por completo las categorías y las extensiones 
 - Para **restablecer** las categorías y extensiones a las predeterminadas, puede usarse el botón ``Restablecer`` dentro de las ventanas de ``Añadir Extensiones`` y ``Añadir Categorías``, o directamente desde ``Ver -> Restablecer extensiones``.
 
 
->_Nota_
->- El nombre de las categoría añadida será el nombre que tendrá la carpeta de dicha categoría. El nombre de la categoría no puede estar entre los [nombres reservados por Windows ni contener caracteres prohibidos](https://learn.microsoft.com/es-es/windows/win32/fileio/naming-a-file#file-and-directory-names).
+>[!NOTE]
+>- El nombre de la categoría añadida será el nombre que tendrá la carpeta de dicha categoría. Por tanto, dicho nombre no puede estar entre los [nombres reservados por Windows ni contener caracteres prohibidos](https://learn.microsoft.com/es-es/windows/win32/fileio/naming-a-file#file-and-directory-names).
 >
->- Las categorías predeterminadas tienen sus propios emojis que se muestran en la **Ventana Final**. Si se eliminan dichas categorías y se vuelven a crear, este emoji se seguirá mostrando en la Ventana Final.
+>- Las categorías predeterminadas tienen sus propios emojis que se muestran en la **Ventana Final**. Si se eliminan dichas categorías y se vuelven a crear con el mismo nombre, los emojis se seguirán mostrando.
 
 ### Preferencias
 La ventana de preferencias puede ser accedida desde `Ver -> Preferencias`.
@@ -154,21 +154,24 @@ El programa permite modificar ciertos parámetros, que se explican a continuaci�
 - `Nombre carpeta destino`: Nombre de la carpeta en la que se guardan las carpetas con los ficheros ordenados.
     - **Valor por defecto**: `ExtSorter`.
 
-- Ficheros mínimos para confirmación: Número mínimo de ficheros que tienen que ser seleccionados en la Ventana Final para que se pida una confirmación.
+- `Mostrar advertencias`: Indica si el usuario quiere recibir advertencias al realizar acciones importantes, como restablecer extensiones/preferencias o manipular cierto número de ficheros.
+    - **Valor por defecto**: `Si`.
+
+- `Ficheros mínimos para confirmación`: Número mínimo de ficheros que tienen que ser manipulados en la **Ventana Final** para que se pida una confirmación.
     - Rango desde `0-1000`. Si se ponen `0`, nunca se pedirá confirmación.
     - **Valor por defecto**: `100`.
 
-- Las últimas tres opciones indican el comportamiento predeterminado de las casillas en la Ventana Principal:
-    - `Manual`: El usuario decide si activar o no las casillas.
+- Las últimas tres opciones indican el **comportamiento predeterminado de las casillas** en la Ventana Principal:
+    - `Manual`: El usuario decide si marcar o no las casillas.
     - `Siempre`: Las casillas se quedan marcadas por defecto.
     - `Nunca`: Las casillas se quedan desmarcadas por defecto.
     - **Valor por defecto**: `Manual`.
 
 ## Próximas características
-- [ ] Opción para quitar advertencias y confirmaciones.
 - [ ] Detección y tratamiento de ficheros duplicados.
 - [ ] Compresión de ficheros con quazip.
 - [ ] Port a Linux.
+- [ ] Crear un desinstalador (para eliminar archivos de configuración).
 
 ## Créditos
 Los iconos usados en el programa no son míos, fueron creados por otros autores y descargados desde [Flaticon](https://www.flaticon.com). En la siguiente tabla se acreditan a los creadores de cada icono. Los iconos marcados con un `*` fueron ligeramente modificados para la aplicación.

@@ -1,5 +1,6 @@
 #include "Headers/extensionManager.h"
 #include "Headers/customMessageBox.h"
+#include "Headers/preferencias.h"
 
 /**** Variables ****/
 const QString ExtensionManager::jsonFilePath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/ExtSorter/extensiones.json";
@@ -64,8 +65,8 @@ int isAlphaNumOrComma(const QString &s)
     return true;
 }
 
-ExtensionManager::ExtensionManager(QSettings * settings)
-    : categoriasYExtensiones(new QMap<QString, QSet<QString>>),settings(settings)
+ExtensionManager::ExtensionManager()
+    : categoriasYExtensiones(new QMap<QString, QSet<QString>>), settings(QSettings())
 {}
 
 ExtensionManager::~ExtensionManager()
@@ -103,7 +104,7 @@ bool ExtensionManager::escribirExtensionesJSON()
     file.write(doc.toJson(QJsonDocument::Indented));
     file.close();
 
-    settings->setValue("filesModified", true);
+    settings.setValue(PrefsNames::filesModified, true);
     return true;
 }
 
@@ -148,7 +149,7 @@ bool ExtensionManager::addCategoriasJSON(QString &nuevaCategoria, QStringList &n
         file.close();
     }
 
-    settings->setValue("filesModified", true);
+    settings.setValue(PrefsNames::filesModified, true);
     return true;
 }
 
@@ -290,14 +291,14 @@ QSet<QString> ExtensionManager::getExtensionsFromTXT()
 
 bool ExtensionManager::wereFilesModified()
 {
-    return settings->value("filesModified").toBool();
+    return settings.value(PrefsNames::filesModified).toBool();
 }
 
 /**** MÉTODOS AUXILIARES ****/
 void ExtensionManager::resetCategoriasYExtensiones()
 {
     *categoriasYExtensiones = defaultCategoriasYExtensiones;
-    settings->setValue("filesModified", false);
+    settings.setValue(PrefsNames::filesModified, false);
 }
 
 bool ExtensionManager::restoreCategoriasYExtensiones()
@@ -311,7 +312,7 @@ bool ExtensionManager::restoreCategoriasYExtensiones()
         /* Actualizar Atributos y Ficheros */
         resetCategoriasYExtensiones();
         success = escribirExtensionesJSON() && escribirTXT(true);
-        settings->setValue("filesModified", false);  // vuelvo a ponerlo porque al escribir el JSON se pone a true
+        settings.setValue(PrefsNames::filesModified, false);  // vuelvo a ponerlo porque al escribir el JSON se pone a true
 
         if (success) {
             CustomMessageBox::info(nullptr, "Restablecer Extensiones", "Extensiones restablecidas con éxito.");

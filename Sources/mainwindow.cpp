@@ -9,7 +9,7 @@
 #include <QProgressBar>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow), settings(QSettings("Danivi", "ExtSorter")), extensionManager(&settings)
+    : QMainWindow(parent), ui(new Ui::MainWindow), settings(QSettings())
 {
     loadSettings();
 
@@ -54,13 +54,14 @@ void MainWindow::loadSettings()
 {
     if (settings.allKeys().isEmpty()) {
         qDebug() << "Archivo de configuración no detectado. Se ha creado el archivo de configuración";
-        settings.setValue("filesModified", false);
-        settings.setValue("settingsModified", false);
-        settings.setValue("nombreCarpetaDestino", "ExtSorter");
-        settings.setValue("minFicherosConfirmacion", 100);
-        settings.setValue("defaultBorrarCarpetasVacias", static_cast<int>(ValorOpcion::MANUAL));
-        settings.setValue("defaultBorrarAccesosDirectos", static_cast<int>(ValorOpcion::MANUAL));
-        settings.setValue("defaultExcluirOtros", static_cast<int>(ValorOpcion::MANUAL));
+        settings.setValue(PrefsNames::filesModified, false);
+        settings.setValue(PrefsNames::settingsModified, false);
+        settings.setValue(PrefsNames::nombreCarpetaDestino, "ExtSorter");
+        settings.setValue(PrefsNames::showWarnings, true);
+        settings.setValue(PrefsNames::minFicherosConfirmacion, 100);
+        settings.setValue(PrefsNames::defaultBorrarCarpetasVacias, static_cast<int>(ValorOpcion::MANUAL));
+        settings.setValue(PrefsNames::defaultBorrarAccesosDirectos, static_cast<int>(ValorOpcion::MANUAL));
+        settings.setValue(PrefsNames::defaultExcluirOtros, static_cast<int>(ValorOpcion::MANUAL));
     }
     /* Debug
     QStringList a = settings.allKeys();
@@ -91,9 +92,9 @@ void MainWindow::crearUI()
     ui->textoInfo->setStyleSheet("font-size: 12px; font-weight: bold;");
 
     /* CheckBoxes */
-    aplicarPreferenciaCheckBox(ui->chkBorrarCarpetas, static_cast<ValorOpcion>(settings.value("defaultBorrarCarpetasVacias").toInt()), borrarCarpetasVacias);
-    aplicarPreferenciaCheckBox(ui->chkBorrarAccesosDirectos, static_cast<ValorOpcion>(settings.value("defaultBorrarAccesosDirectos").toInt()), borrarAccesosDirectos);
-    aplicarPreferenciaCheckBox(ui->chkExcluirOtros, static_cast<ValorOpcion>(settings.value("defaultExcluirOtros").toInt()), excluirOtros);
+    aplicarPreferenciaCheckBox(ui->chkBorrarCarpetas, static_cast<ValorOpcion>(settings.value(PrefsNames::defaultBorrarCarpetasVacias).toInt()), borrarCarpetasVacias);
+    aplicarPreferenciaCheckBox(ui->chkBorrarAccesosDirectos, static_cast<ValorOpcion>(settings.value(PrefsNames::defaultBorrarAccesosDirectos).toInt()), borrarAccesosDirectos);
+    aplicarPreferenciaCheckBox(ui->chkExcluirOtros, static_cast<ValorOpcion>(settings.value(PrefsNames::defaultExcluirOtros).toInt()), excluirOtros);
 
     /* --- Footer --- */
     ui->colorFondo->setStyleSheet("background-color: white; border-top: 1px solid #c6cac6;");
@@ -145,9 +146,9 @@ void MainWindow::restoreMainWindowValues()
     fileCounter.clear();
 
     ui->btnComenzar->setEnabled(false);
-    aplicarPreferenciaCheckBox(ui->chkBorrarCarpetas, static_cast<ValorOpcion>(settings.value("defaultBorrarCarpetasVacias").toInt()), borrarCarpetasVacias);
-    aplicarPreferenciaCheckBox(ui->chkBorrarAccesosDirectos, static_cast<ValorOpcion>(settings.value("defaultBorrarAccesosDirectos").toInt()), borrarAccesosDirectos);
-    aplicarPreferenciaCheckBox(ui->chkExcluirOtros, static_cast<ValorOpcion>(settings.value("defaultExcluirOtros").toInt()), excluirOtros);
+    aplicarPreferenciaCheckBox(ui->chkBorrarCarpetas, static_cast<ValorOpcion>(settings.value(PrefsNames::defaultBorrarCarpetasVacias).toInt()), borrarCarpetasVacias);
+    aplicarPreferenciaCheckBox(ui->chkBorrarAccesosDirectos, static_cast<ValorOpcion>(settings.value(PrefsNames::defaultBorrarAccesosDirectos).toInt()), borrarAccesosDirectos);
+    aplicarPreferenciaCheckBox(ui->chkExcluirOtros, static_cast<ValorOpcion>(settings.value(PrefsNames::defaultExcluirOtros).toInt()), excluirOtros);
     ui->textoSelectCarpeta->setText("");
 }
 
@@ -417,11 +418,11 @@ void MainWindow::actionRestablecerTriggered()
 
 void MainWindow::actionPreferenciasTriggered()
 {
-    Preferencias * ventana = new Preferencias(&settings, this);
+    Preferencias * ventana = new Preferencias(this);
     connect(ventana, &Preferencias::opcionesChanged, this, [this]() {
-        aplicarPreferenciaCheckBox(ui->chkBorrarCarpetas, static_cast<ValorOpcion>(settings.value("defaultBorrarCarpetasVacias").toInt()), borrarCarpetasVacias);
-        aplicarPreferenciaCheckBox(ui->chkBorrarAccesosDirectos, static_cast<ValorOpcion>(settings.value("defaultBorrarAccesosDirectos").toInt()), borrarAccesosDirectos);
-        aplicarPreferenciaCheckBox(ui->chkExcluirOtros, static_cast<ValorOpcion>(settings.value("defaultExcluirOtros").toInt()), excluirOtros);
+        aplicarPreferenciaCheckBox(ui->chkBorrarCarpetas, static_cast<ValorOpcion>(settings.value(PrefsNames::defaultBorrarCarpetasVacias).toInt()), borrarCarpetasVacias);
+        aplicarPreferenciaCheckBox(ui->chkBorrarAccesosDirectos, static_cast<ValorOpcion>(settings.value(PrefsNames::defaultBorrarAccesosDirectos).toInt()), borrarAccesosDirectos);
+        aplicarPreferenciaCheckBox(ui->chkExcluirOtros, static_cast<ValorOpcion>(settings.value(PrefsNames::defaultExcluirOtros).toInt()), excluirOtros);
     });
     ventana->setModal(true);
     ventana->show();

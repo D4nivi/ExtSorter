@@ -3,8 +3,8 @@
 #include "Headers/customMessageBox.h"
 #include "Headers/extensionManager.h"
 
-Preferencias::Preferencias(QSettings * settings, QWidget *parent)
-    : QDialog(parent), ui(new Ui::Preferencias), settings(settings)
+Preferencias::Preferencias(QWidget *parent)
+    : QDialog(parent), ui(new Ui::Preferencias), settings(QSettings())
 {
     ui->setupUi(this);
 
@@ -20,11 +20,20 @@ Preferencias::~Preferencias()
 /* Método auxiliar para cambiar los valores por defecto de los widgets */
 void Preferencias::changeDefaultWidgetsValues()
 {
-    ui->lineEditNombreCarpetaDestino->setText(settings->value("nombreCarpetaDestino").toString());
-    ui->spinBoxFicherosMinimos->setValue(settings->value("minFicherosConfirmacion").toInt());
-    ui->comboBoxDefaultBorrarCarpetasVacias->setCurrentIndex(settings->value("defaultBorrarCarpetasVacias").toInt());
-    ui->comboBoxDefaultBorrarAccesosDirectos->setCurrentIndex(settings->value("defaultBorrarAccesosDirectos").toInt());
-    ui->comboBoxDefaultExcluirOtros->setCurrentIndex(settings->value("defaultExcluirOtros").toInt());
+    ui->lineEditNombreCarpetaDestino->setText(settings.value(PrefsNames::nombreCarpetaDestino).toString());
+
+    if (settings.value(PrefsNames::showWarnings).toBool()) {
+        ui->rbtnSi->setChecked(true);
+    }
+    else {
+        ui->rbtnNo->setChecked(true);
+        ui->spinBoxFicherosMinimos->setDisabled(true);
+    }
+
+    ui->spinBoxFicherosMinimos->setValue(settings.value(PrefsNames::minFicherosConfirmacion).toInt());
+    ui->comboBoxDefaultBorrarCarpetasVacias->setCurrentIndex(settings.value(PrefsNames::defaultBorrarCarpetasVacias).toInt());
+    ui->comboBoxDefaultBorrarAccesosDirectos->setCurrentIndex(settings.value(PrefsNames::defaultBorrarAccesosDirectos).toInt());
+    ui->comboBoxDefaultExcluirOtros->setCurrentIndex(settings.value(PrefsNames::defaultExcluirOtros).toInt());
 }
 
 /**** MÉTODOS AUXILIARES ****/
@@ -53,7 +62,7 @@ void Preferencias::crearUI()
 
     // Botones
     ui->btnGuardar->setDisabled(true);
-    ui->btnRestablecer->setEnabled(settings->value("settingsModified").toBool());
+    ui->btnRestablecer->setEnabled(settings.value("settingsModified").toBool());
 }
 
 void Preferencias::conectarSeñales()
@@ -64,6 +73,21 @@ void Preferencias::conectarSeñales()
     connect(ui->btnRestablecer, &QPushButton::clicked, this, &Preferencias::btnRestablecerClicked);
 
     connect(ui->lineEditNombreCarpetaDestino, &QLineEdit::textChanged, this, &Preferencias::enableSave);
+
+    connect(ui->rbtnSi, &QRadioButton::toggled, this, [=](bool checked){
+        if (checked) {
+            ui->spinBoxFicherosMinimos->setEnabled(true);
+            enableSave();
+        }
+    });
+    connect(ui->rbtnNo, &QRadioButton::toggled, this, [=](bool checked){
+        if (checked) {
+            ui->spinBoxFicherosMinimos->setEnabled(false);
+            ui->spinBoxFicherosMinimos->setValue(0);
+            enableSave();
+        }
+    });
+
     connect(ui->spinBoxFicherosMinimos, &QSpinBox::textChanged, this, &Preferencias::enableSave);
     connect(ui->comboBoxDefaultBorrarCarpetasVacias, &QComboBox::currentIndexChanged, this, &Preferencias::enableSave);
     connect(ui->comboBoxDefaultBorrarAccesosDirectos, &QComboBox::currentIndexChanged, this, &Preferencias::enableSave);
@@ -82,13 +106,14 @@ void Preferencias::enableSave()
 /**** BOTONES ****/
 void Preferencias::btnGuardarClicked()
 {
-    settings->setValue("settingsModified", true);
-    settings->setValue("nombreCarpetaDestino", ui->lineEditNombreCarpetaDestino->text());
-    settings->setValue("minFicherosConfirmacion", ui->spinBoxFicherosMinimos->value());
-    settings->setValue("defaultBorrarCarpetasVacias", ui->comboBoxDefaultBorrarCarpetasVacias->currentIndex());
-    settings->setValue("defaultBorrarAccesosDirectos", ui->comboBoxDefaultBorrarAccesosDirectos->currentIndex());
-    settings->setValue("defaultExcluirOtros", ui->comboBoxDefaultExcluirOtros->currentIndex());
-    settings->sync();
+    settings.setValue(PrefsNames::settingsModified, true);
+    settings.setValue(PrefsNames::nombreCarpetaDestino, ui->lineEditNombreCarpetaDestino->text());
+    settings.setValue(PrefsNames::showWarnings, ui->rbtnSi->isChecked() ? true : false);
+    settings.setValue(PrefsNames::minFicherosConfirmacion, ui->spinBoxFicherosMinimos->value());
+    settings.setValue(PrefsNames::defaultBorrarCarpetasVacias, ui->comboBoxDefaultBorrarCarpetasVacias->currentIndex());
+    settings.setValue(PrefsNames::defaultBorrarAccesosDirectos, ui->comboBoxDefaultBorrarAccesosDirectos->currentIndex());
+    settings.setValue(PrefsNames::defaultExcluirOtros, ui->comboBoxDefaultExcluirOtros->currentIndex());
+    settings.sync();
 
     ui->btnGuardar->setDisabled(true);
     ui->btnRestablecer->setEnabled(true);
@@ -109,19 +134,22 @@ void Preferencias::btnCancelarClicked()
 void Preferencias::btnRestablecerClicked()
 {
     if (CustomMessageBox::mostrarConfirmacion(nullptr, "Confirmar Restablecer preferencias", "¿Estás seguro de que deseas restablecer las preferencias?")) {
-        bool filesModified = settings->value("filesModified").toBool();
+        bool filesModified = settings.value(PrefsNames::filesModified).toBool();
 
-        settings->clear();
-        settings->sync();
+        settings.clear();
+        settings.sync();
 
-        /* No se puede llamar a loadSettings() porque pone siempre filesModified a false */
-        settings->setValue("filesModified", filesModified);
-        settings->setValue("settingsModified", false);
-        settings->setValue("nombreCarpetaDestino", "ExtSorter");
-        settings->setValue("minFicherosConfirmacion", 100);
-        settings->setValue("defaultBorrarCarpetasVacias", static_cast<int>(ValorOpcion::MANUAL));
-        settings->setValue("defaultBorrarAccesosDirectos", static_cast<int>(ValorOpcion::MANUAL));
-        settings->setValue("defaultExcluirOtros", static_cast<int>(ValorOpcion::MANUAL));
+        /* Restablecemos valores de las preferencias.
+         * No se puede llamar a loadSettings() porque pone siempre filesModified a false.
+        */
+        settings.setValue(PrefsNames::filesModified, filesModified);
+        settings.setValue(PrefsNames::settingsModified, false);
+        settings.setValue(PrefsNames::nombreCarpetaDestino, "ExtSorter");
+        settings.setValue(PrefsNames::showWarnings, true);
+        settings.setValue(PrefsNames::minFicherosConfirmacion, 100);
+        settings.setValue(PrefsNames::defaultBorrarCarpetasVacias, static_cast<int>(ValorOpcion::MANUAL));
+        settings.setValue(PrefsNames::defaultBorrarAccesosDirectos, static_cast<int>(ValorOpcion::MANUAL));
+        settings.setValue(PrefsNames::defaultExcluirOtros, static_cast<int>(ValorOpcion::MANUAL));
 
         changeDefaultWidgetsValues();
         ui->btnRestablecer->setDisabled(true);

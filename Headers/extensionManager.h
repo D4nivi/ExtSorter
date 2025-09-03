@@ -16,7 +16,7 @@
 class ExtensionManager
 {
 public:
-    ExtensionManager(QSettings * settings);
+    ExtensionManager();
     ~ExtensionManager();
 
     static const QString jsonFilePath;
@@ -29,7 +29,7 @@ public:
 
 private:
     QMap<QString, QSet<QString>> * categoriasYExtensiones;
-    QSettings * settings;
+    QSettings settings;
 
 /* --- Funciones --- */
 public:

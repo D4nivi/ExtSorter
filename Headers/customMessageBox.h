@@ -4,6 +4,7 @@
 #include <QApplication>
 #include <QMessageBox>
 #include <QPushButton>
+#include <QSettings>
 
 /* Clase auxiliar para iconos mostrados en CustomMessageBox */
 class IconManager

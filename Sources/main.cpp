@@ -10,6 +10,9 @@ int main(int argc, char *argv[])
     proceso.start("python", {"C:\\Users\\danie\\Documents\\PROGRAMACION\\Qt\\ExtSorter\\Pruebas\\Generador.py"});
     proceso.waitForFinished();
 
+    QCoreApplication::setOrganizationName("Danivi");
+    QCoreApplication::setApplicationName("ExtSorter");
+
     QApplication app(argc, argv);
     app.setWindowIcon(QIcon(":/images/icono-app.png"));
 
