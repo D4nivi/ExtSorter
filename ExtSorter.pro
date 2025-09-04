@@ -3,7 +3,7 @@ QT       += core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
-CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT # Deshabilita qDebug en Release
+CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT    # Deshabilita qDebug en Release
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.

@@ -13,7 +13,7 @@ const QMap<QString, QSet<QString>> ExtensionManager::defaultCategoriasYExtension
     {"Comprimido", {"7z", "bz2", "gz", "rar", "tar", "zip"}},
     {"Documento",  {"accdb", "doc", "docm", "docx", "mpp", "odg", "odp", "ods", "odt", "pdf", "ppt", "pptx", "xls", "xlsm", "xlsx"}},
     {"Ejecutable", {"bat", "cmd", "exe", "msi"}},
-    {"Imagen",     {"bmp", "dib", "gif", "jfif", "jpeg", "jpg", "pbm", "pgm", "png", "pnm", "ppm", "qtif", "svg", "tiff", "webp"}},
+    {"Imagen",     {"bmp", "dib", "gif", "ico", "jfif", "jpeg", "jpg", "pbm", "pgm", "png", "pnm", "ppm", "qtif", "svg", "tiff", "webp"}},
     {"Proyecto",   {"ai", "aep", "aup3", "kra", "prproj", "psd", "veg", "xcf"}},
     {"Texto",      {"csv", "log", "md", "txt"}},
     {"Video",      {"avi", "flv", "m4v", "mkv", "mov", "mp4", "mpg", "mxf", "webm", "wmv"}}
