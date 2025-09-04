@@ -33,12 +33,12 @@ https://github.com/user-attachments/assets/a0c412ed-c2a4-411a-91b1-8dbb7956080a
 https://github.com/user-attachments/assets/40a4e936-9cdd-4cd8-b5a6-c0337d8d20b5
 
 ## Requisitos e Instalación
-Actualmente el programa **solo es compatible con Windows**.
+Actualmente el programa **solo es compatible con Windows**. No es necesario instalar ninguna dependencia.
 
-Puedes instalar la última versión del programa [aquí](insertar enlace a la release). El programa es un simple ejecutable, por lo que además de ser portable, **no es necesario instalar ninguna dependencia**.
+Puedes instalar la última versión del programa [aquí](https://github.com/D4nivi/ExtSorter/releases/tag/v1.0). Para usar el programa, extra el zip y ejecuta `ExtSorter.exe`.
 
 Si decides ejecutar el programa desde el código fuente, necesitarás tener instalado:
-- Qt 6 (y sus dependencias)
+- Qt 6 (con Ninja + CMake)
 - Qt Creator
 
 Para ejecutarlo, simplemente abre el proyecto con Qt Creator, constrúyelo y ejecútalo.
