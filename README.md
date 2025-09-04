@@ -175,6 +175,7 @@ Estas opciones indican el **comportamiento predeterminado de las casillas** en l
     - **Valor por defecto**: `Manual`.
 
 ## Próximas características
+- [ ] Opción para distinguir entre extensiones en mayúsculas y minúsculas.
 - [ ] Detección y tratamiento de ficheros duplicados.
 - [ ] Compresión de ficheros con quazip.
 - [ ] Port a Linux.

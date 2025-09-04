@@ -86,7 +86,7 @@ void Extensiones::btnGuardarClicked()
     qDebug() << "Categoria: {" + categoriaExtension + "}";
 
     QString extensionesCaja = textoCaja.toLower();
-    QStringList exts = textoCaja.split(",");
+    QStringList exts = extensionesCaja.split(",");
     auto categoriasYExtensiones = extensionManager->getCategoriasYExtensiones();
 
     /* Actualizamos el QMap de ExtensionManager */
