@@ -145,6 +145,8 @@ El programa permite personalizar por completo las categorías y las extensiones 
 >- El nombre de la categoría añadida será el nombre que tendrá la carpeta de dicha categoría. Por tanto, dicho nombre no puede estar entre los [nombres reservados por Windows ni contener caracteres prohibidos](https://learn.microsoft.com/es-es/windows/win32/fileio/naming-a-file#file-and-directory-names).
 >
 >- Las categorías predeterminadas tienen sus propios emojis que se muestran en la **Ventana Final**. Si se eliminan dichas categorías y se vuelven a crear con el mismo nombre, los emojis se seguirán mostrando.
+>
+>- El programa no distingue entre extensiones en mayúscula y minúsucula: todas las extensiones serán guardadas en minúscula.
 
 ### Preferencias
 La ventana de preferencias puede ser accedida desde `Ver -> Preferencias`.
