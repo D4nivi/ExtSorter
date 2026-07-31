@@ -23,14 +23,6 @@ jobs:
           arch: win64_mingw
           tools: tools_mingw1310
 
-      - name: Debug environment
-        shell: cmd
-        run: |
-          where qmake
-          where g++
-          qmake -v
-          g++ --version
-          
       - name: Build
         shell: cmd
         run: |
@@ -47,14 +39,7 @@ jobs:
         shell: pwsh
         run: |
           $deployDir = "release"
-
-          $allowedFolders = @(
-            "iconengines",
-            "imageformats",
-            "platforms",
-            "styles"
-          )
-
+          $allowedFolders = @("iconengines", "imageformats", "platforms", "styles")
           $allowedFiles = @(
             "ExtSorter.exe",
             "Qt6Core.dll",
@@ -68,25 +53,23 @@ jobs:
           )
 
           Get-ChildItem $deployDir | ForEach-Object {
-
             if ($_.PSIsContainer) {
-              if ($_.Name -notin $allowedFolders) {
-                Remove-Item $_.FullName -Recurse -Force
-              }
+              if ($_.Name -notin $allowedFolders) { Remove-Item $_.FullName -Recurse -Force }
             }
             else {
-              if ($_.Name -notin $allowedFiles) {
-                Remove-Item $_.FullName -Force
-              }
+              if ($_.Name -notin $allowedFiles) { Remove-Item $_.FullName -Force }
             }
           }
+
+      - name: Rename release folder
+        shell: pwsh
+        run: |
+          Rename-Item -Path "release" -NewName "ExtSorter-${{ github.ref_name }}"
 
       - name: Create ZIP
         shell: pwsh
         run: |
-          Compress-Archive `
-            -Path release\* `
-            -DestinationPath "ExtSorter-${{ github.ref_name }}.zip"
+          Compress-Archive -Path "ExtSorter-${{ github.ref_name }}" -DestinationPath "ExtSorter-${{ github.ref_name }}.zip"
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
