@@ -1,9 +1,10 @@
 name: Release Windows
 
 on:
+  workflow_dispatch:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - ci-test
 
 jobs:
   release:
@@ -18,7 +19,16 @@ jobs:
         with:
           version: '6.8.0'
           arch: win64_mingw
+          tools: tools_mingw1310
 
+      - name: Debug environment
+        shell: cmd
+        run: |
+          where qmake
+          where g++
+          qmake -v
+          g++ --version
+          
       - name: Build
         shell: cmd
         run: |
