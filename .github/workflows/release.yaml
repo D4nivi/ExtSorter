@@ -1,0 +1,59 @@
+name: Crear release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.8.0'
+
+      - name: Configure
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      - name: Deploy Qt
+        run: windeployqt build\Release\ExtSorter.exe
+
+      - name: Remove unnecessary Qt plugin folders
+        shell: pwsh
+        run: |
+          $deployDir = "build\Release"
+
+          Get-ChildItem $deployDir -Directory | ForEach-Object {
+            if ($_.Name -notin @(
+              "iconengines",
+              "imageformats",
+              "platforms",
+              "styles"
+            )) {
+              Remove-Item $_.FullName -Recurse -Force
+            }
+          }
+
+      - name: Create ZIP
+        shell: pwsh
+        run: |
+          Compress-Archive `
+            -Path build\Release\* `
+            -DestinationPath "ExtSorter-${{ github.ref_name }}.zip"
+
+      - name: Crear release (borrador)
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+              body: |
+                ## Nuevo en esta versión
+          files: ExtSorter-${{ github.ref_name }}.zip"
