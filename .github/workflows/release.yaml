@@ -22,6 +22,7 @@ jobs:
       - name: Build
         shell: cmd
         run: |
+          set PATH=%QT_ROOT_DIR%\Tools\mingw1310_64\bin;%PATH%
           qmake ExtSorter.pro CONFIG+=release
           mingw32-make -j4
 
