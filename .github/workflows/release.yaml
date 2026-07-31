@@ -1,4 +1,4 @@
-name: Crear release
+name: Release Windows
 
 on:
   push:
@@ -17,20 +17,23 @@ jobs:
         uses: jurplel/install-qt-action@v4
         with:
           version: '6.8.0'
-
-      - name: Configure
-        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+          cache: true
 
       - name: Build
-        run: cmake --build build --config Release
+        shell: cmd
+        run: |
+          qmake ExtSorter.pro CONFIG+=release
+          mingw32-make -j4
 
       - name: Deploy Qt
-        run: windeployqt build\Release\ExtSorter.exe
+        shell: cmd
+        run: |
+          windeployqt release\ExtSorter.exe
 
       - name: Remove unnecessary Qt plugin folders
         shell: pwsh
         run: |
-          $deployDir = "build\Release"
+          $deployDir = "release"
 
           Get-ChildItem $deployDir -Directory | ForEach-Object {
             if ($_.Name -notin @(
@@ -47,11 +50,13 @@ jobs:
         shell: pwsh
         run: |
           Compress-Archive `
-            -Path build\Release\* `
+            -Path release\* `
             -DestinationPath "ExtSorter-${{ github.ref_name }}.zip"
 
-      - name: Crear release (borrador)
+      - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          draft: true
-          files: ExtSorter-${{ github.ref_name }}.zip"
+          name: ExtSorter ${{ github.ref_name }}
+          body: |
+            ## Nuevo en esta versión
+          files: ExtSorter-${{ github.ref_name }}.zip
