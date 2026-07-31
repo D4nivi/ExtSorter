@@ -54,6 +54,4 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           draft: true
-              body: |
-                ## Nuevo en esta versión
           files: ExtSorter-${{ github.ref_name }}.zip"
