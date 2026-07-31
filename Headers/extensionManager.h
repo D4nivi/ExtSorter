@@ -19,8 +19,6 @@ public:
     ExtensionManager();
     ~ExtensionManager();
 
-    static const QString jsonFilePath;
-    static const QString txtFilePath;
     static const int maxCategoryChars;
     static const int maxExtensionBoxChars;
     static const QMap<QString, QSet<QString>> defaultCategoriasYExtensiones;
@@ -47,8 +45,6 @@ public:
 
     bool checkExtensionListFormat(QString &textoCaja, QLabel * mensajeError);
 
-
-
     /* GETTERS */
     QMap<QString, QSet<QString>> * getCategoriasYExtensiones();
 
@@ -62,6 +58,8 @@ private:
     /* MÉTODOS AUXILIARES */
     void resetCategoriasYExtensiones();
 
+    QString jsonFilePath();
+    QString txtFilePath();
 };
 
 #endif // EXTENSIONMANAGER_H

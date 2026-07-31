@@ -3,8 +3,6 @@
 #include "Headers/preferencias.h"
 
 /**** Variables ****/
-const QString ExtensionManager::jsonFilePath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/ExtSorter/extensiones.json";
-const QString ExtensionManager::txtFilePath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/ExtSorter/extensiones.txt";
 const int ExtensionManager::maxCategoryChars = 20;
 const int ExtensionManager::maxExtensionBoxChars= 512;
 const QMap<QString, QSet<QString>> ExtensionManager::defaultCategoriasYExtensiones = {
@@ -18,6 +16,16 @@ const QMap<QString, QSet<QString>> ExtensionManager::defaultCategoriasYExtension
     {"Texto",      {"csv", "log", "md", "txt"}},
     {"Video",      {"avi", "flv", "m4v", "mkv", "mov", "mp4", "mpg", "mxf", "webm", "wmv"}}
 };
+
+QString ExtensionManager::jsonFilePath()
+{
+    return QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/extensiones.json";
+}
+
+QString ExtensionManager::txtFilePath()
+{
+    return QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/extensiones.txt";
+}
 
 /* Función auxiliar estática para comprobaciones en clases CategoriasAdd y Preferencias */
 bool ExtensionManager::isFolderNameValid(QString &nombreCarpeta)
@@ -78,11 +86,11 @@ ExtensionManager::~ExtensionManager()
 bool ExtensionManager::escribirExtensionesJSON()
 {
     QDir().mkpath(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
-    QFile file(jsonFilePath);
+    QFile file(jsonFilePath());
     QJsonObject rootObject;
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qDebug() << "No se pudo abrir el archivo JSON para escribir:" << jsonFilePath;
+        qDebug() << "No se pudo abrir el archivo JSON para escribir:" << jsonFilePath();
         return false;
     }
 
@@ -110,7 +118,7 @@ bool ExtensionManager::escribirExtensionesJSON()
 
 bool ExtensionManager::addCategoriasJSON(QString &nuevaCategoria, QStringList &nuevasExtensiones)
 {
-    QFile file(jsonFilePath);
+    QFile file(jsonFilePath());
 
     /* Pre-Condiciones */
     if (!file.exists()) {
@@ -119,7 +127,7 @@ bool ExtensionManager::addCategoriasJSON(QString &nuevaCategoria, QStringList &n
     }
 
     if (!file.open(QIODevice::ReadOnly)) {
-        qDebug() << "No se pudo abrir el archivo JSON para leer:" << jsonFilePath;
+        qDebug() << "No se pudo abrir el archivo JSON para leer:" << jsonFilePath();
         return false;
     }
 
@@ -140,7 +148,7 @@ bool ExtensionManager::addCategoriasJSON(QString &nuevaCategoria, QStringList &n
 
     /* Escribimos la nueva categoria */
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qDebug() << QString("No se pudo abrir el archivo %1 para escribir las categorias.").arg(ExtensionManager::jsonFilePath);
+        qDebug() << QString("No se pudo abrir el archivo %1 para escribir las categorias.").arg(ExtensionManager::jsonFilePath());
         return false;
     } else {
         qDebug() << "Añadiendo Categorías al fichero JSON...";
@@ -155,7 +163,7 @@ bool ExtensionManager::addCategoriasJSON(QString &nuevaCategoria, QStringList &n
 
 void ExtensionManager::leerJSON()
 {
-    QFile file(jsonFilePath);
+    QFile file(jsonFilePath());
 
     /* Pre-Condiciones */
     if (!file.open(QIODevice::ReadOnly)) {
@@ -203,7 +211,7 @@ void ExtensionManager::leerJSON()
 bool ExtensionManager::escribirTXT(bool force)
 {
     QDir().mkpath(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
-    QFile file(txtFilePath);
+    QFile file(txtFilePath());
 
     /* Solo se fuerza la escritura al eliminar una categoria */
     if (file.exists() && !force) {
@@ -212,7 +220,7 @@ bool ExtensionManager::escribirTXT(bool force)
     }
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qDebug() << "No se ha podido abrir el archivo para escribir:" << txtFilePath;
+        qDebug() << "No se ha podido abrir el archivo para escribir:" << txtFilePath();
         return false;
     }
 
@@ -236,10 +244,10 @@ bool ExtensionManager::escribirTXT(bool force)
 
 bool ExtensionManager::addExtensionesTXT(QString extensionesEnTexto)
 {
-    QFile txtExtensiones(txtFilePath);
+    QFile txtExtensiones(txtFilePath());
 
     if (!txtExtensiones.open(QIODevice::Append | QIODevice::Text)) {
-        qDebug() << QString("No se pudo abrir el archivo %1 para escribir.").arg(txtFilePath);
+        qDebug() << QString("No se pudo abrir el archivo %1 para escribir.").arg(txtFilePath());
         return false;
     } else {
         qDebug() << "Actualizando fichero extensiones.txt...";
@@ -271,7 +279,7 @@ QStringList ExtensionManager::getCategorias()
 
 QSet<QString> ExtensionManager::getExtensionsFromTXT()
 {
-    QFile extFile(txtFilePath);
+    QFile extFile(txtFilePath());
 
     if (!extFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qDebug() << "No se pudo abrir el archivo" << extFile.fileName();
